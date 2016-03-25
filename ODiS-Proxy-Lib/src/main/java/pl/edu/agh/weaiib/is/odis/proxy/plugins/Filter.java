@@ -6,7 +6,7 @@ public abstract class Filter {
 
     private int priority;
 
-    protected Map<String, String> parameters;
+    protected Map<String, Object> parameters;
 
     public void setPriority(int priority){
         this.priority = priority;
@@ -16,7 +16,7 @@ public abstract class Filter {
         return priority;
     }
 
-    public void setParameters(Map<String, String> parameters){
+    public void setParameters(Map<String, Object> parameters){
         if(parameters != null) {
             this.parameters = parameters;
             init();

@@ -64,7 +64,7 @@ public class ODiSProxy {
 
     public Configuration readConfiguration(InputStream input){
         try{
-            return Configuration.ConfigurationMarshaller.unmarshal(input);
+            return Configuration.ConfigurationSerializer.unserialize(input);
         } catch (Exception e) {
             LOGGER.error(String.format("Error while reading configuration: %s", e.getMessage()));
         }

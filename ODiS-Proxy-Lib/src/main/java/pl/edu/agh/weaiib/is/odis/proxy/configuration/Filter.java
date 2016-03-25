@@ -1,24 +1,27 @@
 package pl.edu.agh.weaiib.is.odis.proxy.configuration;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementMap;
+
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="filter")
 public class Filter {
 
+    @Attribute
     private String filterName;
 
+    @Attribute
     private FilterPlace place;
 
+    @Attribute
     private int priority;
 
-    private Map<String, String> parameters;
+    @ElementMap(inline = true, entry = "parameter", key = "key", value = "value", required = false)
+    private Map<String, Object> parameters;
 
     public Filter(){
-        parameters = new HashMap<String, String>();
+        parameters = new HashMap<String, Object>();
     };
 
     public Filter(String filterName, FilterPlace place, int priority){
@@ -28,11 +31,10 @@ public class Filter {
         this.priority = priority;
     }
 
-    public void addParameter(String key, String value){
+    public void addParameter(String key, Object value){
         parameters.put(key, value);
     }
 
-    @XmlElement(name="class")
     public String getFilterName() {
         return filterName;
     }
@@ -40,7 +42,6 @@ public class Filter {
     public void setFilterName(String filterName) {
         this.filterName = filterName;
     }
-
 
     public FilterPlace getPlace() {
         return place;
@@ -50,13 +51,11 @@ public class Filter {
         this.place = place;
     }
 
-    @XmlElementWrapper(name="parameters")
-    @XmlElement(name="parameter")
-    public Map<String, String> getParameters() {
+    public Map<String, Object> getParameters() {
         return parameters;
     }
 
-    public void setParameters(Map<String, String> parameters) {
+    public void setParameters(Map<String, Object> parameters) {
         if(parameters != null) {
             this.parameters = parameters;
         }

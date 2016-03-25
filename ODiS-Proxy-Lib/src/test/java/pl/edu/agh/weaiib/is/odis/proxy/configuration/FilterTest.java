@@ -1,10 +1,10 @@
 package pl.edu.agh.weaiib.is.odis.proxy.configuration;
 
-import java.util.HashMap;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
+
+import static org.junit.Assert.*;
 
 public class FilterTest {
 
@@ -33,7 +33,7 @@ public class FilterTest {
     public void settersFillsParameters(){
         Filter filter = new Filter();
 
-        HashMap<String, String> parameters = new HashMap<String, String>();
+        HashMap<String, Object> parameters = new HashMap<String, Object>();
 
         filter.setFilterName(filterName);
         filter.setPlace(place);

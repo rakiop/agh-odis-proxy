@@ -14,12 +14,13 @@ import static org.junit.Assert.*;
  */
 public class ConfigurationMarshallerTestIT {
 
-    private static final String xmlValue = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" + "<configurations>\n" + "    <configurations>\n" + "        <filters/>\n"
-        + "        <port>8080</port>\n" + "        <timeFrom>23:59</timeFrom>\n" + "        <timeTo>00:00</timeTo>\n" + "        <type>HTTP_SERVER</type>\n" + "    </configurations>\n"
-        + "</configurations>";
+    private static final String xmlValue = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+            "<configurations>\n" +
+            "   <configuration timeFrom=\"00:00\" timeTo=\"23:59\" type=\"HTTP_SERVER\" port=\"8080\"/>\n" +
+            "</configurations>";
 
-    private static final String fromTime = "23:59";
-    private static final String toTime = "00:00";
+    private static final String fromTime = "00:00";
+    private static final String toTime = "23:59";
     private static final int port = 8080;
     private static final ListenerType listenerType = ListenerType.HTTP_SERVER;
     @Test
@@ -29,7 +30,7 @@ public class ConfigurationMarshallerTestIT {
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-        Configuration.ConfigurationMarshaller.marshal(configuration, os);
+        Configuration.ConfigurationSerializer.serialize(configuration, os);
 
         String content = new String(os.toByteArray()).trim();
 
@@ -41,7 +42,7 @@ public class ConfigurationMarshallerTestIT {
     public void unmarshal() throws Exception {
         InputStream is = new ByteArrayInputStream(xmlValue.getBytes(StandardCharsets.UTF_8));
 
-        Configuration configuration = Configuration.ConfigurationMarshaller.unmarshal(is);
+        Configuration configuration = Configuration.ConfigurationSerializer.unserialize(is);
 
         assertNotNull(configuration);
         assertNotNull(configuration.getConfigurations());

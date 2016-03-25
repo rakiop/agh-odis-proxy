@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configurations>
-    <configurations>
-        <filters>
-            <filter>
-                <class>pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin</class>
-                <parameters>
-                    <entry>
-                        <key>list</key>
-                        <value>www.google.pl;www.coachingsport.pl</value>
-                    </entry>
-                </parameters>
-                <place>SERVER_CLIENT_TO_PROXY</place>
-                <priority>1</priority>
-            </filter>
-        </filters>
-        <port>8099</port>
-        <timeFrom>23:59</timeFrom>
-        <timeTo>00:00</timeTo>
-        <type>HTTP_SERVER</type>
-    </configurations>
+    <configuration timeFrom="00:00" timeTo="23:59" type="HTTP_SERVER" port="8099">
+        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin" place="SERVER_CLIENT_TO_PROXY" priority="1">
+            <parameter>
+                <key>list</key>
+                <value class="pl.edu.agh.weaiib.is.odis.proxy.SerializableList">
+                    <item class="java.lang.String">google.pl</item>
+                    <item class="java.lang.String">coachingsport.pl</item>
+                </value>
+            </parameter>
+        </filter>
+    </configuration>
 </configurations>

@@ -37,24 +37,24 @@ public class DateHelperTest {
 
     @Test
     public void isCurrentBetween(){
-        LocalTime before = LocalTime.now().minusHours(1);
-        LocalTime after = LocalTime.now().plusHours(1);
+        LocalTime before = LocalTime.now().minusSeconds(5);
+        LocalTime after = LocalTime.now().plusSeconds(5);
 
         assertTrue(DateHelper.currentTimeIsBetween(before, after));
 
         before = LocalTime.now();
         assertTrue(DateHelper.currentTimeIsBetween(before, after));
 
-        before = LocalTime.now().minusHours(1);
+        before = LocalTime.now().minusSeconds(5);
         after = LocalTime.now();
         assertTrue(DateHelper.currentTimeIsBetween(before, after));
 
-        before = LocalTime.now().plusHours(1);
+        before = LocalTime.now().plusSeconds(1);
         after = before.plusMinutes(1);
         assertFalse(DateHelper.currentTimeIsBetween(before, after));
 
-        before = LocalTime.now().minusHours(1);
-        after = LocalTime.now().minusHours(1);
+        before = LocalTime.now().minusSeconds(5);
+        after = LocalTime.now().minusSeconds(4);
         assertFalse(DateHelper.currentTimeIsBetween(before, after));
 
     }

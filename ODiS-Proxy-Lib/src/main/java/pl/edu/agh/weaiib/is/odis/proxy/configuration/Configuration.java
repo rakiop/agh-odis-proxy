@@ -1,23 +1,23 @@
 package pl.edu.agh.weaiib.is.odis.proxy.configuration;
 
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "configurations")
+@Root(name = "configurations")
 public class Configuration {
 
+    @ElementList(inline = true, entry = "configuration")
     private List<ConfigurationEntry> configurations;
 
     public Configuration(){
-        this.configurations = new LinkedList<ConfigurationEntry>();
+        this.configurations = new LinkedList<>();
     }
 
     public void addConfiguration(ConfigurationEntry entry){
@@ -36,21 +36,18 @@ public class Configuration {
         this.configurations = configurations;
     }
 
-    public static class ConfigurationMarshaller{
+    public static class ConfigurationSerializer {
 
-        private static JAXBContext getContext() throws JAXBException {
-            return JAXBContext.newInstance(Configuration.class,ConfigurationEntry.class, Filter.class, ArrayList.class);
+        public static void serialize(Configuration configuration, OutputStream stream) throws Exception {
+            Serializer serializer = new Persister();
+            stream.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n".getBytes());
+            serializer.write(configuration, stream);
         }
 
-        public static void marshal(Configuration configuration, OutputStream stream) throws JAXBException {
-            Marshaller marshaller = getContext().createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(configuration, stream);
-        }
+        public static Configuration unserialize(InputStream stream) throws Exception {
+            Serializer serializer = new Persister();
+            return serializer.read(Configuration.class, stream);
 
-        public static Configuration unmarshal(InputStream stream) throws JAXBException {
-            Unmarshaller unmarshaller = getContext().createUnmarshaller();
-            return (Configuration) unmarshaller.unmarshal(stream);
         }
 
     }
