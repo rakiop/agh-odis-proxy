@@ -1,12 +1,13 @@
 package pl.edu.agh.weaiib.is.odis.proxy.proxies;
 
-import java.util.List;
 import org.junit.Test;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import java.time.LocalTime;
+import java.util.List;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,6 +51,34 @@ public class ProxyServerTest {
         List<Filter> filters = server.getFilters(place);
 
         assertNotNull(filters);
+    }
+
+    @Test
+    public void getFilterListOnlyIfTimeIsCorrect(){
+        FilterPlace place = FilterPlace.SERVER_CLIENT_TO_PROXY;
+
+        ProxyServer server = new ProxyServer(testPort);
+
+        Filter filter = mock(Filter.class);
+        server.addFilter(filter, place);
+
+        // Current is between
+        LocalTime before = LocalTime.now().minusHours(1);
+        LocalTime after = LocalTime.now().plusHours(1);
+        server.setFilterFromTime(before);
+        server.setFilterToTime(after);
+
+        List<Filter> filters = server.getFilters(place);
+        assertFalse(filters.isEmpty());
+
+        // Current is not between
+        before = LocalTime.now().plusHours(1);
+        after = before.plusHours(1);
+        server.setFilterFromTime(before);
+        server.setFilterToTime(after);
+
+        filters = server.getFilters(place);
+        assertTrue(filters.isEmpty());
     }
 
 }

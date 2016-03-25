@@ -33,8 +33,8 @@ install
             </filter>
         </filters>
         <port>8099</port>
-        <timeFrom>12PM</timeFrom>
-        <timeTo>12AM</timeTo>
+        <timeFrom>23:59</timeFrom>
+        <timeTo>00:00</timeTo>
         <type>HTTP_SERVER</type>
     </configurations>
 </configurations>
