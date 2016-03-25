@@ -41,7 +41,7 @@ public class ODiSProxyTestE2E {
     private Configuration generateConfiguration(int serverPort, int socketPort) {
         Configuration configuration = new Configuration();
 
-        ConfigurationEntry serverEntry = new ConfigurationEntry("12AM","12PM",serverPort, ListenerType.HTTP_SERVER);
+        ConfigurationEntry serverEntry = new ConfigurationEntry("00:00","23:59",serverPort, ListenerType.HTTP_SERVER);
         Filter blackListFilter = new Filter("pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin", FilterPlace.SERVER_CLIENT_TO_PROXY, 1);
         Filter unexistFilter = new Filter("filter.that.does.not.exist", FilterPlace.SERVER_CLIENT_TO_PROXY, 2);
         Map<String, String> properties = new HashMap<String, String>();
@@ -57,7 +57,7 @@ public class ODiSProxyTestE2E {
         serverEntry.addFilter(unexistFilter);
         configuration.addConfiguration(serverEntry);
 
-        ConfigurationEntry socketEntry = new ConfigurationEntry("12AM","12PM",socketPort, ListenerType.SOCKET);
+        ConfigurationEntry socketEntry = new ConfigurationEntry("00:00","23:59",socketPort, ListenerType.SOCKET);
         configuration.addConfiguration(socketEntry);
 
 

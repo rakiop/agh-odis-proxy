@@ -1,22 +1,17 @@
 package pl.edu.agh.weaiib.is.odis.proxy;
 
+import org.junit.Test;
+import pl.edu.agh.weaiib.is.odis.proxy.configuration.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
-import pl.edu.agh.weaiib.is.odis.proxy.configuration.Configuration;
-import pl.edu.agh.weaiib.is.odis.proxy.configuration.ConfigurationEntry;
-import pl.edu.agh.weaiib.is.odis.proxy.configuration.Filter;
-import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
-import pl.edu.agh.weaiib.is.odis.proxy.configuration.ListenerType;
+
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ODiSProxyTest {
 
@@ -84,8 +79,8 @@ public class ODiSProxyTest {
 
         when(configuration.getConfigurations()).thenReturn(configurations);
 
-        when(entry.getTimeFrom()).thenReturn("12AM");
-        when(entry.getTimeTo()).thenReturn("12PM");
+        when(entry.getTimeFrom()).thenReturn("00:00");
+        when(entry.getTimeTo()).thenReturn("23:59");
         when(entry.getPort()).thenReturn(8099);
         when(entry.getType()).thenReturn(ListenerType.HTTP_SERVER);
         when(entry.getFilters()).thenReturn(filterList);

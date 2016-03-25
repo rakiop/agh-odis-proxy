@@ -1,13 +1,13 @@
 package pl.edu.agh.weaiib.is.odis.proxy.configuration;
 
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by SG0222582 on 3/24/2016.
@@ -15,11 +15,11 @@ import static org.junit.Assert.assertNotNull;
 public class ConfigurationMarshallerTestIT {
 
     private static final String xmlValue = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" + "<configurations>\n" + "    <configurations>\n" + "        <filters/>\n"
-        + "        <port>8080</port>\n" + "        <timeFrom>12PM</timeFrom>\n" + "        <timeTo>12AM</timeTo>\n" + "        <type>HTTP_SERVER</type>\n" + "    </configurations>\n"
+        + "        <port>8080</port>\n" + "        <timeFrom>23:59</timeFrom>\n" + "        <timeTo>00:00</timeTo>\n" + "        <type>HTTP_SERVER</type>\n" + "    </configurations>\n"
         + "</configurations>";
 
-    private static final String fromTime = "12PM";
-    private static final String toTime = "12AM";
+    private static final String fromTime = "23:59";
+    private static final String toTime = "00:00";
     private static final int port = 8080;
     private static final ListenerType listenerType = ListenerType.HTTP_SERVER;
     @Test

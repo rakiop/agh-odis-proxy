@@ -1,10 +1,10 @@
 package pl.edu.agh.weaiib.is.odis.proxy.configuration;
 
-import java.util.LinkedList;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import java.util.LinkedList;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -12,8 +12,8 @@ import static org.mockito.Mockito.mock;
  */
 public class ConfigurationEntryTest {
 
-    private static final String fromTime = "12PM";
-    private static final String toTime = "12AM";
+    private static final String fromTime = "23:59";
+    private static final String toTime = "00:00";
     private static final int port = 8080;
     private static final ListenerType listenerType = ListenerType.HTTP_SERVER;
 

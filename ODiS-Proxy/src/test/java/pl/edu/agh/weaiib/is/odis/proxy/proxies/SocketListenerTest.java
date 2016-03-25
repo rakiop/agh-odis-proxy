@@ -3,8 +3,11 @@ package pl.edu.agh.weaiib.is.odis.proxy.proxies;
 import org.junit.Test;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import java.time.LocalTime;
+import java.util.List;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +26,6 @@ public class SocketListenerTest {
         listener.addFilter(filter, place);
 
         assertTrue(listener.getFilters(place).contains(filter));
-
     }
 
     @Test
@@ -40,6 +42,42 @@ public class SocketListenerTest {
 
         assertEquals(listener.getFilters(place).get(0), filter2);
         assertEquals(listener.getFilters(place).get(1), filter1);
+    }
+
+    @Test
+    public void getFilterAlwaysReturnsList(){
+        SocketListener listener = new SocketListener(testPort);
+        List<Filter> filters = listener.getFilters(place);
+
+        assertNotNull(filters);
+    }
+
+    @Test
+    public void getFilterListOnlyIfTimeIsCorrect(){
+        FilterPlace place = FilterPlace.SERVER_CLIENT_TO_PROXY;
+
+        SocketListener listener = new SocketListener(testPort);
+
+        Filter filter = mock(Filter.class);
+        listener.addFilter(filter, place);
+
+        // Current is between
+        LocalTime before = LocalTime.now().minusHours(1);
+        LocalTime after = LocalTime.now().plusHours(1);
+        listener.setFilterFromTime(before);
+        listener.setFilterToTime(after);
+
+        List<Filter> filters = listener.getFilters(place);
+        assertFalse(filters.isEmpty());
+
+        // Current is not between
+        before = LocalTime.now().plusHours(1);
+        after = before.plusHours(1);
+        listener.setFilterFromTime(before);
+        listener.setFilterToTime(after);
+
+        filters = listener.getFilters(place);
+        assertTrue(filters.isEmpty());
     }
 
 }
