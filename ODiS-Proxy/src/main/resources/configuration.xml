@@ -6,7 +6,21 @@
                 <key>list</key>
                 <value class="pl.edu.agh.weaiib.is.odis.proxy.SerializableList">
                     <item>google.pl</item>
-                    <item>coachingsport.pl</item>
+                </value>
+            </parameter>
+        </filter>
+        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.ContentFilterPlugin" place="SERVER_PROXY_TO_CLIENT" priority="1">
+            <parameter>
+                <key>terms</key>
+                <value class="pl.edu.agh.weaiib.is.odis.proxy.SerializableList">
+                    <item>sex</item>
+                    <item>porn</item>
+                </value>
+            </parameter>
+            <parameter>
+                <key>patterns</key>
+                <value class="pl.edu.agh.weaiib.is.odis.proxy.SerializableList">
+                     <item>[a-z]{20,}</item> <!-- skip german words :D -->
                 </value>
             </parameter>
         </filter>

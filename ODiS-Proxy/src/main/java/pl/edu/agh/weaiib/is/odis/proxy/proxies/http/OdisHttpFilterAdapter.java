@@ -67,6 +67,9 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
                 }
             }
 
+            if(!canContinue)
+                return OdisHttpAbortFilterAdapter.getForbiddenResponse();
+
             try {
                 byte[] contentBytes = content.getBytes(charset);
                 response.retain().content().clear().writeBytes(contentBytes);
