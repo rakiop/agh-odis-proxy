@@ -64,7 +64,8 @@ public class ProxyServer implements Proxies{
 
     @Override
     public void close() {
-        server.stop();
+        if(server != null)
+            server.stop();
         serverIsStarted = false;
     }
 
