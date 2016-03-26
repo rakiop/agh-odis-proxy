@@ -31,7 +31,7 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
     public void init() {
         Object propertyListObject = parameters.get("list");
         if(propertyListObject instanceof SerializableList){
-            SerializableList<String> propertyList = (SerializableList<String>)propertyListObject;
+            SerializableList propertyList = (SerializableList)propertyListObject;
             if(propertyList != null){
                 for(String url : propertyList.getList()){
                     String trimmedUrl = url.trim().toLowerCase();

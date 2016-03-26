@@ -16,7 +16,7 @@ public class ConfigurationMarshallerTestIT {
 
     private static final String xmlValue = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
             "<configurations>\n" +
-            "   <configuration timeFrom=\"00:00\" timeTo=\"23:59\" type=\"HTTP_SERVER\" port=\"8080\"/>\n" +
+            "   <configuration type=\"HTTP_SERVER\" port=\"8080\"/>\n" +
             "</configurations>";
 
     private static final String fromTime = "00:00";
@@ -26,7 +26,7 @@ public class ConfigurationMarshallerTestIT {
     @Test
     public void marshal() throws Exception {
         Configuration configuration = new Configuration();
-        configuration.addConfiguration(new ConfigurationEntry(fromTime, toTime, port, listenerType));
+        configuration.addConfiguration(new ConfigurationEntry(port, listenerType));
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
@@ -48,8 +48,6 @@ public class ConfigurationMarshallerTestIT {
         assertNotNull(configuration.getConfigurations());
         assertFalse(configuration.getConfigurations().isEmpty());
         ConfigurationEntry entry  = configuration.getConfigurations().get(0);
-        assertEquals(entry.getTimeFrom(), fromTime);
-        assertEquals(entry.getTimeTo(), toTime);
         assertEquals(entry.getPort(), port);
         assertEquals(entry.getType(), listenerType);
 

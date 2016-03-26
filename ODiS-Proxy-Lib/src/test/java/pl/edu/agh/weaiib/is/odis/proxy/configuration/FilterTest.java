@@ -33,7 +33,7 @@ public class FilterTest {
     public void settersFillsParameters(){
         Filter filter = new Filter();
 
-        HashMap<String, Object> parameters = new HashMap<String, Object>();
+        HashMap<String, Object> parameters = new HashMap<>();
 
         filter.setFilterName(filterName);
         filter.setPlace(place);

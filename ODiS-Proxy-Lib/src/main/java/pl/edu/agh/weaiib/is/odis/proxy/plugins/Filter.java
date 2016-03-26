@@ -1,10 +1,15 @@
 package pl.edu.agh.weaiib.is.odis.proxy.plugins;
 
+import java.time.LocalTime;
 import java.util.Map;
 
 public abstract class Filter {
 
     private int priority;
+    
+    private LocalTime filterFrom;
+
+    private LocalTime filterTo;
 
     protected Map<String, Object> parameters;
 
@@ -24,4 +29,20 @@ public abstract class Filter {
     }
 
     public abstract void init();
+
+    public LocalTime getFilterFrom() {
+        return filterFrom;
+    }
+
+    public void setFilterFrom(LocalTime filterFrom) {
+        this.filterFrom = filterFrom;
+    }
+
+    public LocalTime getFilterTo() {
+        return filterTo;
+    }
+
+    public void setFilterTo(LocalTime filterTo) {
+        this.filterTo = filterTo;
+    }
 }

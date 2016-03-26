@@ -4,18 +4,18 @@ import org.simpleframework.xml.ElementList;
 
 import java.util.List;
 
-public class SerializableList<T> {
+public class SerializableList {
 
     @ElementList(inline = true, entry = "item")
-    protected List<T> list;
+    protected List<String> list;
 
     public SerializableList(){}
 
-    public SerializableList(List<T> list){
+    public SerializableList(List<String> list){
         this.list = list;
     }
 
-    public List<T> getList(){
+    public List<String> getList(){
         return this.list;
     }
 

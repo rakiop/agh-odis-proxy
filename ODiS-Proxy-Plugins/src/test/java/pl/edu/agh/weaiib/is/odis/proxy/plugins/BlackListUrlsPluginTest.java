@@ -98,7 +98,7 @@ public class BlackListUrlsPluginTest {
     private BlackListUrlsPlugin initializeBlackListUrls(String domainList){
         BlackListUrlsPlugin list = new BlackListUrlsPlugin();
         Map<String, Object> params = new HashMap<>();
-        params.put("list",new SerializableList<>(Arrays.asList(domainList)));
+        params.put("list",new SerializableList(Arrays.asList(domainList)));
         list.setParameters(params);
         list.init();
 

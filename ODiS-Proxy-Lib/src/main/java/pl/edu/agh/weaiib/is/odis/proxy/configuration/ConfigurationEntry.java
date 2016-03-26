@@ -9,12 +9,6 @@ import java.util.List;
 public class ConfigurationEntry {
 
     @Attribute
-    private String timeFrom;
-
-    @Attribute
-    private String timeTo;
-
-    @Attribute
     private ListenerType type;
 
     @Attribute
@@ -27,10 +21,8 @@ public class ConfigurationEntry {
         this.filters = new LinkedList<>();
     }
 
-    public ConfigurationEntry(String timeFrom, String timeTo, int port, ListenerType type){
+    public ConfigurationEntry(int port, ListenerType type){
         this();
-        this.timeFrom = timeFrom;
-        this.timeTo = timeTo;
         this.port = port;
         this.type = type;
     }
@@ -39,22 +31,6 @@ public class ConfigurationEntry {
         if(filter == null)
             throw new IllegalArgumentException("Filter cannot be null");
         filters.add(filter);
-    }
-
-    public String getTimeFrom() {
-        return timeFrom;
-    }
-
-    public void setTimeFrom(String timeFrom) {
-        this.timeFrom = timeFrom;
-    }
-
-    public String getTimeTo() {
-        return timeTo;
-    }
-
-    public void setTimeTo(String timeTo) {
-        this.timeTo = timeTo;
     }
 
     public ListenerType getType() {
