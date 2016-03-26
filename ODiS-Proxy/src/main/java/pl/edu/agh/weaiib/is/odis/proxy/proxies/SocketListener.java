@@ -85,6 +85,7 @@ public class SocketListener implements Proxies{
 
         @Override
         public void run() {
+            LOGGER.info(String.format("Start listening on socket %s:%s", socket.getInetAddress(), socket.getLocalPort()));
             while(!interrupt && listener.isStarted()){
                 try {
                     Socket client = socket.accept();

@@ -78,9 +78,6 @@ public class ODiSProxyTest {
         configurations.add(entry);
 
         when(configuration.getConfigurations()).thenReturn(configurations);
-
-        when(entry.getTimeFrom()).thenReturn("00:00");
-        when(entry.getTimeTo()).thenReturn("23:59");
         when(entry.getPort()).thenReturn(8099);
         when(entry.getType()).thenReturn(ListenerType.HTTP_SERVER);
         when(entry.getFilters()).thenReturn(filterList);
@@ -89,6 +86,9 @@ public class ODiSProxyTest {
         when(filter.getPlace()).thenReturn(FilterPlace.SERVER_CLIENT_TO_PROXY);
         when(filter.getPriority()).thenReturn(1);
         when(filter.getParameters()).thenReturn(filterProperties);
+
+        when(filter.getTimeFrom()).thenReturn("00:00");
+        when(filter.getTimeTo()).thenReturn("23:59");
 
         return configuration;
     }
