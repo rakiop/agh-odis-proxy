@@ -12,8 +12,6 @@ import static org.mockito.Mockito.mock;
  */
 public class ConfigurationEntryTest {
 
-    private static final String fromTime = "23:59";
-    private static final String toTime = "00:00";
     private static final int port = 8080;
     private static final ListenerType listenerType = ListenerType.HTTP_SERVER;
 
@@ -26,10 +24,8 @@ public class ConfigurationEntryTest {
 
     @Test
     public void constructorFillsParameters(){
-        ConfigurationEntry entry = new ConfigurationEntry(fromTime, toTime, port, listenerType);
+        ConfigurationEntry entry = new ConfigurationEntry(port, listenerType);
 
-        assertEquals(entry.getTimeFrom(), fromTime);
-        assertEquals(entry.getTimeTo(), toTime);
         assertEquals(entry.getPort(), port);
         assertEquals(entry.getType(), listenerType);
         assertNotNull(entry.getFilters());
@@ -41,14 +37,10 @@ public class ConfigurationEntryTest {
 
         LinkedList<Filter> filters = new LinkedList<Filter>();
 
-        entry.setTimeFrom(fromTime);
-        entry.setTimeTo(toTime);
         entry.setPort(port);
         entry.setType(listenerType);
         entry.setFilters(filters);
 
-        assertEquals(entry.getTimeFrom(), fromTime);
-        assertEquals(entry.getTimeTo(), toTime);
         assertEquals(entry.getPort(), port);
         assertEquals(entry.getType(), listenerType);
         assertEquals(entry.getFilters(), filters);

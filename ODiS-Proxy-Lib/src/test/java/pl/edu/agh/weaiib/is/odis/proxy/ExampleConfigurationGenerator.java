@@ -17,8 +17,8 @@ public class ExampleConfigurationGenerator {
     public void generateConfiguration() throws Exception {
         Configuration configuration = new Configuration();
 
-        ConfigurationEntry entry = new ConfigurationEntry("00:00","23:59",8099, ListenerType.HTTP_SERVER);
-        Filter blackListFilter = new Filter("pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin", FilterPlace.SERVER_CLIENT_TO_PROXY, 1);
+        ConfigurationEntry entry = new ConfigurationEntry(8099, ListenerType.HTTP_SERVER);
+        Filter blackListFilter = new Filter("pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin", FilterPlace.SERVER_CLIENT_TO_PROXY, 1, "00:00","23:59");
 
         Map<String, Object> properties = new HashMap<>();
 
@@ -26,7 +26,7 @@ public class ExampleConfigurationGenerator {
         blackedUrls.add("google.pl");
         blackedUrls.add("coachingsport.pl");
 
-        properties.put("list", new SerializableList<>(blackedUrls));
+        properties.put("list", new SerializableList(blackedUrls));
         blackListFilter.setParameters((Map) properties);
 
         entry.addFilter(blackListFilter);

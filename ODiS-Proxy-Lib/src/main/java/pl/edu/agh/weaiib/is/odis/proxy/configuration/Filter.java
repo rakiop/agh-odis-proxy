@@ -17,18 +17,30 @@ public class Filter {
     @Attribute
     private int priority;
 
+    @Attribute(required = false)
+    private String timeFrom;
+
+    @Attribute(required = false)
+    private String timeTo;
+
     @ElementMap(inline = true, entry = "parameter", key = "key", value = "value", required = false)
     private Map<String, Object> parameters;
 
     public Filter(){
-        parameters = new HashMap<String, Object>();
+        parameters = new HashMap<>();
     };
 
     public Filter(String filterName, FilterPlace place, int priority){
+        this(filterName, place, priority, null, null);
+    }
+
+    public Filter(String filterName, FilterPlace place, int priority, String timeFrom, String timeTo){
         this();
         this.filterName = filterName;
         this.place = place;
         this.priority = priority;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
     }
 
     public void addParameter(String key, Object value){
@@ -43,12 +55,29 @@ public class Filter {
         this.filterName = filterName;
     }
 
+
     public FilterPlace getPlace() {
         return place;
     }
 
     public void setPlace(FilterPlace place) {
         this.place = place;
+    }
+
+    public String getTimeFrom() {
+        return timeFrom;
+    }
+
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = timeFrom;
+    }
+
+    public String getTimeTo() {
+        return timeTo;
+    }
+
+    public void setTimeTo(String timeTo) {
+        this.timeTo = timeTo;
     }
 
     public Map<String, Object> getParameters() {

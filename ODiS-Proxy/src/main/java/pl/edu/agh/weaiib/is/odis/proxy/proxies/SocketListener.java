@@ -3,17 +3,17 @@ package pl.edu.agh.weaiib.is.odis.proxy.proxies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
-import pl.edu.agh.weaiib.is.odis.proxy.helpers.DateHelper;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter;
+import pl.edu.agh.weaiib.is.odis.proxy.plugins.FilterPredicate;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.socket.ODiSSocketClient;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.time.LocalTime;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SocketListener implements Proxies{
 
@@ -24,10 +24,6 @@ public class SocketListener implements Proxies{
     private ServerSocket socket;
 
     private final List<Filter> filters;
-
-    private LocalTime fromTime;
-
-    private LocalTime toTime;
 
     private SocketListenerThread listenerThread;
 
@@ -65,34 +61,13 @@ public class SocketListener implements Proxies{
         Collections.sort(filters,(f1,f2) -> f1.getPriority() - f2.getPriority());
     }
 
-    private static final LinkedList<Filter> emptyFilterList = new LinkedList<>();
+    private static final FilterPredicate filterPredicate = new FilterPredicate();
 
     @Override
     public List<Filter> getFilters(FilterPlace place) {
-        if(DateHelper.currentTimeIsBetween(fromTime, toTime))
-            return filters;
-        else
-            return emptyFilterList;
-    }
-
-    @Override
-    public void setFilterFromTime(LocalTime date) {
-        this.fromTime = date;
-    }
-
-    @Override
-    public LocalTime getFilterFromTime() {
-        return fromTime;
-    }
-
-    @Override
-    public void setFilterToTime(LocalTime date) {
-        this.toTime = date;
-    }
-
-    @Override
-    public LocalTime getFilterToTime() {
-        return toTime;
+        return filters.stream()
+                .filter(filterPredicate)
+                .collect(Collectors.toList());
     }
 
     private static class SocketListenerThread implements Runnable{
