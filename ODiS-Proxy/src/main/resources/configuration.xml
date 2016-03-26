@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configurations>
-    <configuration timeFrom="00:00" timeTo="23:59" type="HTTP_SERVER" port="8099">
-        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin" place="SERVER_CLIENT_TO_PROXY" priority="1">
+    <configuration type="HTTP_SERVER" port="8099">
+        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin" place="SERVER_CLIENT_TO_PROXY" priority="1" timeFrom="00:00" timeTo="23:59">
             <parameter>
                 <key>list</key>
                 <value class="pl.edu.agh.weaiib.is.odis.proxy.SerializableList">
-                    <item class="java.lang.String">google.pl</item>
-                    <item class="java.lang.String">coachingsport.pl</item>
+                    <item>google.pl</item>
+                    <item>coachingsport.pl</item>
                 </value>
             </parameter>
         </filter>
