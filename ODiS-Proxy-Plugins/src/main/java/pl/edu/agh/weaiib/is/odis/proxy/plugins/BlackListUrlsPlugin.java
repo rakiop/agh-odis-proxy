@@ -5,6 +5,7 @@ import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.weaiib.is.odis.proxy.SerializableList;
 import pl.edu.agh.weaiib.is.odis.proxy.helpers.URIHelper;
 
 import java.net.InetAddress;
@@ -28,16 +29,18 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
 
     @Override
     public void init() {
-        String propertyList = parameters.get("list");
-        if(propertyList != null){
-            String[] urlsToTrim = propertyList.split(";");
-            for(String url : urlsToTrim){
-                String trimmedUrl = url.trim().toLowerCase();
-                if(trimmedUrl.startsWith("www."))
-                    trimmedUrl = trimmedUrl.substring(4);
-                if(!trimmedUrl.isEmpty() && !fullDomains.contains(trimmedUrl)){
-                    fullDomains.add(trimmedUrl);
-                    subdomainsSufix.add("." + trimmedUrl);
+        Object propertyListObject = parameters.get("list");
+        if(propertyListObject instanceof SerializableList){
+            SerializableList<String> propertyList = (SerializableList<String>)propertyListObject;
+            if(propertyList != null){
+                for(String url : propertyList.getList()){
+                    String trimmedUrl = url.trim().toLowerCase();
+                    if(trimmedUrl.startsWith("www."))
+                        trimmedUrl = trimmedUrl.substring(4);
+                    if(!trimmedUrl.isEmpty() && !fullDomains.contains(trimmedUrl)){
+                        fullDomains.add(trimmedUrl);
+                        subdomainsSufix.add("." + trimmedUrl);
+                    }
                 }
             }
         }

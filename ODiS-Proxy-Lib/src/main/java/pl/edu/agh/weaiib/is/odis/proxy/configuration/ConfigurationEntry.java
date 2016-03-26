@@ -1,26 +1,30 @@
 package pl.edu.agh.weaiib.is.odis.proxy.configuration;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementList;
+
 import java.util.LinkedList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="configuration")
 public class ConfigurationEntry {
 
+    @Attribute
     private String timeFrom;
 
+    @Attribute
     private String timeTo;
 
+    @Attribute
     private ListenerType type;
 
+    @Attribute
     private int port;
 
+    @ElementList(name = "filters", entry = "filter", inline = true, required = false)
     private List<Filter> filters;
 
     public ConfigurationEntry(){
-        this.filters = new LinkedList<Filter>();
+        this.filters = new LinkedList<>();
     }
 
     public ConfigurationEntry(String timeFrom, String timeTo, int port, ListenerType type){
@@ -65,8 +69,6 @@ public class ConfigurationEntry {
         return filters;
     }
 
-    @XmlElementWrapper(name="filters")
-    @XmlElement(name="filter")
     public void setFilters(List<Filter> filters) {
         if(filters == null)
             throw new IllegalArgumentException("Filters list cannot be null");

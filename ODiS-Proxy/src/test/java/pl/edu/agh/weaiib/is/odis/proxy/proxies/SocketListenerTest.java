@@ -62,8 +62,8 @@ public class SocketListenerTest {
         listener.addFilter(filter, place);
 
         // Current is between
-        LocalTime before = LocalTime.now().minusHours(1);
-        LocalTime after = LocalTime.now().plusHours(1);
+        LocalTime before = LocalTime.now().minusSeconds(5);
+        LocalTime after = LocalTime.now().plusSeconds(5);
         listener.setFilterFromTime(before);
         listener.setFilterToTime(after);
 
@@ -71,8 +71,8 @@ public class SocketListenerTest {
         assertFalse(filters.isEmpty());
 
         // Current is not between
-        before = LocalTime.now().plusHours(1);
-        after = before.plusHours(1);
+        before = LocalTime.now().plusSeconds(5);
+        after = before.plusSeconds(5);
         listener.setFilterFromTime(before);
         listener.setFilterToTime(after);
 

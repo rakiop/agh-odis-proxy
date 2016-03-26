@@ -3,7 +3,9 @@ package pl.edu.agh.weaiib.is.odis.proxy.plugins;
 
 import io.netty.handler.codec.http.HttpRequest;
 import org.junit.Test;
+import pl.edu.agh.weaiib.is.odis.proxy.SerializableList;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,13 +95,10 @@ public class BlackListUrlsPluginTest {
         assertTrue(list.testHttpRequest(request, null));
     }
 
-
-
-
     private BlackListUrlsPlugin initializeBlackListUrls(String domainList){
         BlackListUrlsPlugin list = new BlackListUrlsPlugin();
-        Map<String, String> params = new HashMap<>();
-        params.put("list",domainList);
+        Map<String, Object> params = new HashMap<>();
+        params.put("list",new SerializableList<>(Arrays.asList(domainList)));
         list.setParameters(params);
         list.init();
 

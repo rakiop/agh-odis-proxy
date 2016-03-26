@@ -68,7 +68,7 @@ public class ODiSProxyTest {
         ConfigurationEntry entry = mock(ConfigurationEntry.class);
         Filter filter = mock(Filter.class);
 
-        Map<String, String> filterProperties = new HashMap<>();
+        Map<String, Object> filterProperties = new HashMap<>();
         filterProperties.put("list", "google.com;google.pl");
 
         List<Filter> filterList = new LinkedList<Filter>();
