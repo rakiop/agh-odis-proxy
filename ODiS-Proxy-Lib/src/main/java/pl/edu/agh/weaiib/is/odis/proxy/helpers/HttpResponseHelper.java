@@ -6,11 +6,26 @@ import io.netty.handler.codec.http.HttpResponse;
 import java.util.AbstractMap;
 import java.util.Map;
 
+/**
+ * Helper to deal with Http response - read content type / charset and set content length
+ */
 public class HttpResponseHelper {
 
+    /**
+     * Content type key
+     */
     private static final String CONTENT_TYPE_KEY = "Content-Type";
+
+    /**
+     * Content length key
+     */
     private static final String CONTENT_SIZE = "Content-Length";
 
+    /**
+     * Reads content type from response
+     * @param httpObject        Response object
+     * @return                  Content type or empty string
+     */
     public static String getContentType(HttpObject httpObject){
         if(httpObject instanceof HttpResponse){
             DefaultHttpHeaders headers = (DefaultHttpHeaders)((HttpResponse) httpObject).headers();
@@ -24,6 +39,11 @@ public class HttpResponseHelper {
         return "";
     }
 
+    /**
+     * Reads charset from HttpResponse
+     * @param httpObject    Http response
+     * @return              Charset name or "UTF-8"
+     */
     public static String getCharset(HttpObject httpObject){
         if(httpObject instanceof HttpResponse){
             DefaultHttpHeaders headers = (DefaultHttpHeaders)((HttpResponse) httpObject).headers();
@@ -39,6 +59,11 @@ public class HttpResponseHelper {
         return "UTF-8";
     }
 
+    /**
+     * Set content length header new value
+     * @param httpObject    Http Response
+     * @param length        Content length
+     */
     public static void updateContentLength(HttpObject httpObject, int length) {
         DefaultHttpHeaders headers = (DefaultHttpHeaders)((HttpResponse) httpObject).headers();
         int index = -1;

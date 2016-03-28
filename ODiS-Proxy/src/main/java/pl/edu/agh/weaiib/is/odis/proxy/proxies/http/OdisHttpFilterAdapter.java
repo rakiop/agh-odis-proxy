@@ -17,17 +17,42 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Default proxy adapter
+ */
 public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
 
+    /**
+     * Main application logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(OdisHttpFilterAdapter.class);
 
+    /**
+     * List of content types to do post - filtering
+     */
     private static final List<String> filterableContentTypes = Arrays.asList(new String[]{"text/html","text/plain","application/javascript"}) ;
 
+    /**
+     * Proxy server
+     */
     private ProxyServer server;
 
+    /**
+     * Request object
+     */
     HttpRequest originalRequest;
+
+    /**
+     * Context object
+     */
     ChannelHandlerContext ctx;
 
+    /**
+     * Default constructor
+     * @param originalRequest   Request
+     * @param ctx               Context
+     * @param server            Proxy server
+     */
     public OdisHttpFilterAdapter(HttpRequest originalRequest, ChannelHandlerContext ctx, ProxyServer server) {
         super(originalRequest, ctx);
         this.server = server;
@@ -35,6 +60,11 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
         this.ctx = ctx;
     }
 
+    /**
+     * Filtering when proxy gets response from remote host
+     * @param httpObject    Response
+     * @return              Response after filtering
+     */
     @Override
     public HttpObject proxyToClientResponse(HttpObject httpObject){
 

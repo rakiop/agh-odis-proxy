@@ -16,18 +16,41 @@ import pl.edu.agh.weaiib.is.odis.proxy.proxies.ProxyServer;
 
 import java.util.List;
 
+/**
+ * Adapter to handle HTTP requests
+ */
 public class FilterAdapter extends HttpFiltersSourceAdapter {
 
+    /**
+     * Main application logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(FilterAdapter.class);
 
+    /**
+     * Proxy server handler
+     */
     private final ProxyServer server;
 
+    /**
+     * Attribute to save request url for ssl connection
+     */
+    public static final AttributeKey<String> CONNECTED_URL = AttributeKey.valueOf("connected_url");
+
+    /**
+     * Default constructor
+     * @param server    Proxy server handler
+     */
     public FilterAdapter(ProxyServer server) {
         this.server = server;
     }
 
-    public static final AttributeKey<String> CONNECTED_URL = AttributeKey.valueOf("connected_url");
-
+    /**
+     * Handle HTTP request, do pre-filtering, save request url in SSL connection
+     * and return proper HtppFilters class
+     * @param originalRequest   request
+     * @param ctx               context
+     * @return                  HttpFilter class to do post-filtering
+     */
     public HttpFilters filterRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
         String from = ctx == null || ctx.channel().remoteAddress() == null
                 ? "" : ctx.channel().remoteAddress().toString();
@@ -60,11 +83,20 @@ public class FilterAdapter extends HttpFiltersSourceAdapter {
         return new OdisHttpFilterAdapter(originalRequest, ctx, server);
     }
 
+    /**
+     * Return buffer size - more then 0 to aggregate batches
+     * @return  more than 0 value
+     */
     @Override
     public int getMaximumResponseBufferSizeInBytes() {
         return 10 * 1024 * 1024;
     }
 
+    /**
+     * Return buffer size - more then 0 to aggregate batches
+     * @return  more than 0 value
+     */
+    @Override
     public int getMaximumRequestBufferSizeInBytes() {
         return 10 * 1024 * 1024;
     }

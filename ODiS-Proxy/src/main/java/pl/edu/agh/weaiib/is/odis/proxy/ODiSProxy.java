@@ -14,10 +14,21 @@ import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Main class of application
+ */
 public class ODiSProxy {
 
+    /**
+     * Main application logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ODiSProxy.class);
 
+    /**
+     * Start point of application
+     * @param args          Arguments - first argument can be configuration file path
+     * @throws Exception    If something unexpected happend :)
+     */
     public static void main(String[] args) throws Exception {
         ODiSProxy application = new ODiSProxy();
         application.determineConfigurationFile(args);
@@ -38,12 +49,25 @@ public class ODiSProxy {
         LOGGER.info("Shut down...");
     }
 
+    /**
+     * List of active proxies / listeners
+     */
     private List<Proxies> proxies = new LinkedList<>();
 
+    /**
+     * Configuration file path
+     */
     private String configurationFile;
 
+    /**
+     * Read configuration
+     */
     private Configuration configurations;
 
+    /**
+     * Set configuration file path - default "configuration.xml" or first parameter from arguments
+     * @param args  Applications arguments
+     */
     public void determineConfigurationFile(String[] args){
         LOGGER.info(String.format("Application determineConfigurationFile from %s", System.getProperty("user.dir")));
 
@@ -56,10 +80,19 @@ public class ODiSProxy {
 
     }
 
+    /**
+     * Return configuration file path
+     * @return  Configuration file path
+     */
     public String getConfigurationFile(){
         return this.configurationFile;
     }
 
+    /**
+     * Read configuration from XML file
+     * @param input Stream to read
+     * @return      Configuration object or null on error
+     */
     public Configuration readConfiguration(InputStream input){
         try{
             return Configuration.ConfigurationSerializer.unserialize(input);
@@ -69,10 +102,17 @@ public class ODiSProxy {
         return null;
     }
 
+    /**
+     * Inject Configuration
+     * @param configuration
+     */
     public void setConfiguration(Configuration configuration){
         this.configurations = configuration;
     }
 
+    /**
+     * Read proxies / listeners from configuration object
+     */
     public void loadProxies(){
         LOGGER.info("Creating proxies");
         proxies = new LinkedList<>();
@@ -104,6 +144,10 @@ public class ODiSProxy {
         }
     }
 
+    /**
+     * Read from input stream until [ENTER] is pressed
+     * @param reader
+     */
     public void waitToClose(BufferedReader reader) {
         System.out.println("Pres [ENTER] to shut down...");
         String line = "";
@@ -114,6 +158,10 @@ public class ODiSProxy {
         }while(!line.isEmpty());
     }
 
+    /**
+     * Start all proxies / listeners
+     * @throws Exception    On unexpected error
+     */
     public void startProxies() throws Exception {
         LOGGER.info("Start proxies");
         for(Proxies proxy : proxies){
@@ -121,6 +169,10 @@ public class ODiSProxy {
         }
     }
 
+    /**
+     * Close all proxies / listeners
+     * @throws Exception    On unexpected error
+     */
     public void closeProxies() throws Exception {
         LOGGER.info("Closing proxies");
         for(Proxies proxy : proxies){
@@ -128,6 +180,14 @@ public class ODiSProxy {
         }
     }
 
+    /**
+     * Create Filter object from its configuration
+     * @param filter                    Filter Configuration
+     * @return                          Filter object
+     * @throws ClassNotFoundException   If Filter class name is not present
+     * @throws IllegalAccessException   If initializer is not accessible
+     * @throws InstantiationException   If initializer is not accessible
+     */
     private pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter createFilter(Filter filter) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         Class filterClass = Class.forName(filter.getFilterName());
         pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter newFilter =  (pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter) filterClass.newInstance();

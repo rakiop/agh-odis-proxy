@@ -16,17 +16,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * Plugin to blacklist specific domains
+ */
 public class BlackListUrlsPlugin extends ODiSHttpFilter{
 
+    /**
+     * Main application logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(BlackListUrlsPlugin.class);
 
+    /**
+     * Pattern to check  if url is IPv4 based
+     */
     private static final Pattern IPv4Pattern = Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}");
+
+    /**
+     * Pattern to check if url is IPv6 split by colon based
+     */
     private static final Pattern IPv6Patternv1 = Pattern.compile("[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}");
+
+    /**
+     * pattern to check if url is IPv6 with dots based
+     */
     private static final Pattern IPv6Patternv2 = Pattern.compile("[0-9a-fA-F]{1,4}\\.[0-9a-fA-F]{1,4}\\.[0-9a-fA-F]{1,4}\\.[0-9a-fA-F]{1,4}\\.[0-9a-fA-F]{1,4}\\.[0-9a-fA-F]{1,4}\\.[0-9a-fA-F]{1,4}\\.[0-9a-fA-F]{1,4}");
 
-    private List<String> fullDomains = new ArrayList<String>();
-    private List<String> subdomainsSufix = new ArrayList<String>();
+    /**
+     * List to validate full domain address
+     */
+    private List<String> fullDomains = new ArrayList<>();
 
+    /**
+     * List to validate if current url is subdomain of
+     * blacklisted domain
+     */
+    private List<String> subdomainsSufix = new ArrayList<>();
+
+    /**
+     * Initialization of blacklists entries from
+     * {@code parameters.get("list"}
+     */
     @Override
     public void init() {
         Object propertyListObject = parameters.get("list");
@@ -46,6 +75,12 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
         }
     }
 
+    /**
+     * Test if current http request is to blacklisted domain
+     * @param originalRequest   Http request
+     * @param ctx               Context
+     * @return                  Whether domain is good or not
+     */
     @Override
     public boolean testHttpRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
         String uri = originalRequest.getUri();
@@ -62,6 +97,11 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
         return true;
     }
 
+    /**
+     * Get host from full request url
+     * @param url   Request URL
+     * @return      Host of URL
+     */
     private String getHost(String url){
         String host = "";
         try {
@@ -90,6 +130,13 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
         return host;
     }
 
+    /**
+     * Testing response is disabled - always return {@code true}
+     * @param originalRequest
+     * @param response
+     * @param content
+     * @return                  Always {@code true}
+     */
     @Override
     public boolean testHttpResponse(HttpRequest originalRequest, HttpObject response, String content) {
         return true;

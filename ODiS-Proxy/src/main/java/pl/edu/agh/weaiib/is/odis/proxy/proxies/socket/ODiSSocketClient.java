@@ -11,19 +11,39 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
+/**
+ * Handle one client from socket listener
+ */
 public class ODiSSocketClient implements Runnable {
 
+    /**
+     * Main application logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ODiSSocketClient.class);
 
+    /**
+     * Socket listener
+     */
     private final SocketListener socketListener;
 
+    /**
+     * Client socket
+     */
     private final Socket socket;
 
+    /**
+     * Default constructor
+     * @param socketListener    socket listener
+     * @param socket            client socket
+     */
     public ODiSSocketClient(SocketListener socketListener, Socket socket){
         this.socketListener = socketListener;
         this.socket = socket;
     }
 
+    /**
+     * Calls plugins on client socket and closes connection
+     */
     @Override
     public void run() {
         try {
