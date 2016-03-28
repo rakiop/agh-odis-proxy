@@ -104,7 +104,7 @@ public class ODiSProxy {
 
     /**
      * Inject Configuration
-     * @param configuration
+     * @param configuration Configuration value
      */
     public void setConfiguration(Configuration configuration){
         this.configurations = configuration;
@@ -139,14 +139,13 @@ public class ODiSProxy {
                     LOGGER.warn(String.format("Could not create filter %s : %s", filter.getFilterName(), e.getMessage()));
                 }
             }
-            if(proxy != null)
-                proxies.add(proxy);
+            proxies.add(proxy);
         }
     }
 
     /**
      * Read from input stream until [ENTER] is pressed
-     * @param reader
+     * @param reader    Input stream
      */
     public void waitToClose(BufferedReader reader) {
         System.out.println("Pres [ENTER] to shut down...");
@@ -154,7 +153,9 @@ public class ODiSProxy {
         do{
             try {
                 line = reader.readLine();
-            } catch (IOException e) { }
+            } catch (IOException e) {
+                LOGGER.warn(e.getMessage());
+            }
         }while(!line.isEmpty());
     }
 

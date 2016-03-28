@@ -44,32 +44,30 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
     /**
      * List to validate full domain address
      */
-    private List<String> fullDomains = new ArrayList<>();
+    private final List<String> fullDomains = new ArrayList<>();
 
     /**
      * List to validate if current url is subdomain of
      * blacklisted domain
      */
-    private List<String> subdomainsSufix = new ArrayList<>();
+    private final List<String> subdomainsSufix = new ArrayList<>();
 
     /**
      * Initialization of blacklists entries from
-     * {@code parameters.get("list"}
+     * {@code parameters} with key "list"
      */
     @Override
     public void init() {
         Object propertyListObject = parameters.get("list");
         if(propertyListObject instanceof SerializableList){
             SerializableList propertyList = (SerializableList)propertyListObject;
-            if(propertyList != null){
-                for(String url : propertyList.getList()){
-                    String trimmedUrl = url.trim().toLowerCase();
-                    if(trimmedUrl.startsWith("www."))
-                        trimmedUrl = trimmedUrl.substring(4);
-                    if(!trimmedUrl.isEmpty() && !fullDomains.contains(trimmedUrl)){
-                        fullDomains.add(trimmedUrl);
-                        subdomainsSufix.add("." + trimmedUrl);
-                    }
+            for(String url : propertyList.getList()){
+                String trimmedUrl = url.trim().toLowerCase();
+                if(trimmedUrl.startsWith("www."))
+                    trimmedUrl = trimmedUrl.substring(4);
+                if(!trimmedUrl.isEmpty() && !fullDomains.contains(trimmedUrl)){
+                    fullDomains.add(trimmedUrl);
+                    subdomainsSufix.add("." + trimmedUrl);
                 }
             }
         }
@@ -132,9 +130,9 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
 
     /**
      * Testing response is disabled - always return {@code true}
-     * @param originalRequest
-     * @param response
-     * @param content
+     * @param originalRequest   Request
+     * @param response          Response
+     * @param content           Parsed content
      * @return                  Always {@code true}
      */
     @Override

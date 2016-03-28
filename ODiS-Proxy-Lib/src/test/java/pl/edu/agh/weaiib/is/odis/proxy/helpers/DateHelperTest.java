@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import java.time.LocalTime;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
+
 
 public class DateHelperTest {
 

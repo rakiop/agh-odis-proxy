@@ -24,7 +24,7 @@ public interface Proxies {
 
     /**
      * Is listening?
-     * @return
+     * @return  Is listener started?
      */
     boolean isStarted();
 

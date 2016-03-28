@@ -7,9 +7,6 @@ import java.util.LinkedList;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by SG0222582 on 3/24/2016.
- */
 public class ConfigurationEntryTest {
 
     private static final int port = 8080;
@@ -35,7 +32,7 @@ public class ConfigurationEntryTest {
     public void settrsUpdatedParamters(){
         ConfigurationEntry entry = new ConfigurationEntry();
 
-        LinkedList<Filter> filters = new LinkedList<Filter>();
+        LinkedList<Filter> filters = new LinkedList<>();
 
         entry.setPort(port);
         entry.setType(listenerType);
@@ -65,7 +62,7 @@ public class ConfigurationEntryTest {
     @Test
     public void setNewFiltersList(){
         ConfigurationEntry entry = new ConfigurationEntry();
-        LinkedList<Filter> filters = new LinkedList<Filter>();
+        LinkedList<Filter> filters = new LinkedList<>();
         entry.setFilters(filters);
 
         assertEquals(entry.getFilters(), filters);

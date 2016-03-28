@@ -16,8 +16,7 @@ public class URIHelper {
      */
     public static URI getURIFromUrl(String url) throws URISyntaxException {
         try{
-            URI uri = new URI(url);
-            return uri;
+            return new URI(url);
         }catch(URISyntaxException e){
             StringBuilder resultStr = new StringBuilder();
             int doubleBackslash = url.indexOf("://")+3;
@@ -51,9 +50,7 @@ public class URIHelper {
      * @return      Is mark not valid?
      */
     private static boolean isUnsafe(char ch) {
-        if (ch > 128 || ch < 0)
-            return true;
-        return " %$+,:;@<>#%{}[]'\"".indexOf(ch) >= 0;
+        return ch > 128 || ch < 0 || " %$+,:;@<>#%{}[]'\"".indexOf(ch) >= 0;
     }
 
 }

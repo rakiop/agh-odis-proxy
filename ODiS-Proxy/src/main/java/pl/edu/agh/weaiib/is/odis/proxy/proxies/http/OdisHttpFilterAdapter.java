@@ -30,22 +30,17 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
     /**
      * List of content types to do post - filtering
      */
-    private static final List<String> filterableContentTypes = Arrays.asList(new String[]{"text/html","text/plain","application/javascript"}) ;
+    private static final List<String> filterableContentTypes = Arrays.asList("text/html","text/plain","application/javascript") ;
 
     /**
      * Proxy server
      */
-    private ProxyServer server;
+    private final ProxyServer server;
 
     /**
      * Request object
      */
-    HttpRequest originalRequest;
-
-    /**
-     * Context object
-     */
-    ChannelHandlerContext ctx;
+    private final HttpRequest originalRequest;
 
     /**
      * Default constructor
@@ -57,7 +52,6 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
         super(originalRequest, ctx);
         this.server = server;
         this.originalRequest = originalRequest;
-        this.ctx = ctx;
     }
 
     /**

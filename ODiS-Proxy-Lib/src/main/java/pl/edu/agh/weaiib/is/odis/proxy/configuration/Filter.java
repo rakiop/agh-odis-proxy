@@ -52,7 +52,7 @@ public class Filter {
      */
     public Filter(){
         parameters = new HashMap<>();
-    };
+    }
 
     /**
      * Speed constructor - not times

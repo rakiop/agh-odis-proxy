@@ -19,17 +19,17 @@ public class ContentFilterPlugin extends ODiSHttpFilter {
     /**
      * List of forbidden patterns
      */
-    List<Pattern> forbiddenPatterns = new LinkedList<>();
+    private final List<Pattern> forbiddenPatterns = new LinkedList<>();
 
     /**
      * List of forbidden terms
      */
-    List<String> forbiddenTerms = new LinkedList();
+    private List<String> forbiddenTerms = new LinkedList<>();
 
     /**
      * Testing request is disabled - always return {@code true}
-     * @param originalRequest
-     * @param ctx
+     * @param originalRequest   Request object
+     * @param ctx               Context
      * @return                  Always return {@code true}
      */
     @Override

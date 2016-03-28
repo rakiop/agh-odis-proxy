@@ -1,7 +1,9 @@
 package pl.edu.agh.weaiib.is.odis.proxy.configuration;
 
-import java.util.LinkedList;
 import org.junit.Test;
+
+import java.util.LinkedList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -26,7 +28,7 @@ public class ConfigurationTest {
 
     @Test
     public void setConfiguration(){
-        LinkedList<ConfigurationEntry> configurations = new LinkedList<ConfigurationEntry>();
+        LinkedList<ConfigurationEntry> configurations = new LinkedList<>();
 
         Configuration configuration = new Configuration();
         configuration.setConfigurations(configurations);

@@ -41,11 +41,11 @@ public class OdisHttpAbortFilterAdapter extends HttpFiltersAdapter {
     }
 
     /**
-     *
-     * @param httpVersion
-     * @param status
-     * @param body
-     * @return
+     * Generate default response
+     * @param httpVersion   Http version
+     * @param status        Response status
+     * @param body          Body content
+     * @return              Response
      */
     private static DefaultFullHttpResponse responseFor(HttpVersion httpVersion, HttpResponseStatus status, String body) {
         byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
@@ -62,7 +62,7 @@ public class OdisHttpAbortFilterAdapter extends HttpFiltersAdapter {
      * @return                  Response object
      */
     private static DefaultFullHttpResponse responseFor(HttpVersion httpVersion, HttpResponseStatus status, ByteBuf body, int contentLength) {
-        DefaultFullHttpResponse response = body != null?new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status, body):new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status);
+        DefaultFullHttpResponse response = body != null?new DefaultFullHttpResponse(httpVersion, status, body):new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, status);
         if(body != null) {
             response.headers().set("Content-Length", Integer.valueOf(contentLength));
             response.headers().set("Content-Type", "text/html; charset=UTF-8");

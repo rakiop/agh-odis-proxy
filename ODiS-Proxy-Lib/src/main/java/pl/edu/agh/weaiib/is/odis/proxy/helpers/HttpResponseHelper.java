@@ -75,7 +75,7 @@ public class HttpResponseHelper {
         }
 
         if(index>=0){
-            headers.entries().set(index, new AbstractMap.SimpleEntry<String, String>(CONTENT_SIZE, Integer.toString(length)));
+            headers.entries().set(index, new AbstractMap.SimpleEntry<>(CONTENT_SIZE, Integer.toString(length)));
         }
     }
 }

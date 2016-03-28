@@ -8,9 +8,6 @@ import java.net.Socket;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by SG0222582 on 3/24/2016.
- */
 public class SocketListenerTestE2E {
 
     private static final int testPort = 8989;

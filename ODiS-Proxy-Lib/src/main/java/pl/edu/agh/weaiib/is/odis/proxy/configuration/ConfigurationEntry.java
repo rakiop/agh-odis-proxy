@@ -60,7 +60,7 @@ public class ConfigurationEntry {
 
     /**
      * Get listener type
-     * @return
+     * @return  Listener type
      */
     public ListenerType getType() {
         return type;
@@ -95,7 +95,7 @@ public class ConfigurationEntry {
 
     /**
      * Get port to listen
-     * @return
+     * @return  Port to listen
      */
     public int getPort() {
         return port;

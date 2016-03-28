@@ -44,9 +44,9 @@ public class ODiSProxyTestE2E {
         ConfigurationEntry serverEntry = new ConfigurationEntry(serverPort, ListenerType.HTTP_SERVER);
         Filter blackListFilter = new Filter("pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin", FilterPlace.SERVER_CLIENT_TO_PROXY, 1, "00:00","23:59");
         Filter unexistFilter = new Filter("filter.that.does.not.exist", FilterPlace.SERVER_CLIENT_TO_PROXY, 2);
-        Map<String, String> properties = new HashMap<String, String>();
+        Map<String, String> properties = new HashMap<>();
 
-        List<String> blackedUrls = new ArrayList<String>();
+        List<String> blackedUrls = new ArrayList<>();
         blackedUrls.add("google.pl");
         blackedUrls.add("coachingsport.pl");
 

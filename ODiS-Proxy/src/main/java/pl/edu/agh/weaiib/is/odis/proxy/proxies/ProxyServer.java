@@ -35,7 +35,7 @@ public class ProxyServer implements Proxies{
     /**
      * Map of filters
      */
-    private Map<FilterPlace, LinkedList<Filter>> filters = new HashMap<>();
+    private final Map<FilterPlace, LinkedList<Filter>> filters = new HashMap<>();
 
     /**
      * Empty filter / plugins list if not set - performance

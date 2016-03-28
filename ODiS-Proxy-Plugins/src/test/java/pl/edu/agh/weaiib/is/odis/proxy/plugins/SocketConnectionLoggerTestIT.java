@@ -8,12 +8,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystemException;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -24,11 +24,13 @@ public class SocketConnectionLoggerTestIT {
     private static final String fileName = String.format("test-%s-%s.txt", SocketConnectionLoggerTestIT.class.getCanonicalName(), LocalTime.now().toSecondOfDay());
 
     @After
-    public void removeTestFile(){
+    public void removeTestFile() throws FileSystemException {
         File file = new File(fileName);
 
         if(file.exists()){
-            file.delete();
+            if(!file.delete()){
+                throw new FileSystemException("Can not delete file");
+            }
         }
     }
 
@@ -86,21 +88,18 @@ public class SocketConnectionLoggerTestIT {
 
         List<Thread> threads = new LinkedList<>();
         for(int i=0; i< threadsNumber; i++){
-            threads.add(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(0);
-                    } catch (InterruptedException e) {
+            threads.add(new Thread(() -> {
+                try {
+                    Thread.sleep(0);
+                } catch (InterruptedException e) {
 
-                    }
-                    Socket socket = mock(Socket.class);
-
-                    when(socket.getInetAddress()).thenReturn(null);
-                    when(socket.getLocalPort()).thenReturn(0);
-                    when(socket.getRemoteSocketAddress()).thenReturn(null);
-                    logger.testSocketRequest(socket);
                 }
+                Socket socket = mock(Socket.class);
+
+                when(socket.getInetAddress()).thenReturn(null);
+                when(socket.getLocalPort()).thenReturn(0);
+                when(socket.getRemoteSocketAddress()).thenReturn(null);
+                logger.testSocketRequest(socket);
             }));
         }
 
@@ -110,12 +109,7 @@ public class SocketConnectionLoggerTestIT {
 
         long counter;
         do{
-            counter = threads.stream().filter(new Predicate<Thread>() {
-                @Override
-                public boolean test(Thread thread) {
-                    return !thread.isAlive();
-                }
-            }).count();
+            counter = threads.stream().filter(thread -> !thread.isAlive()).count();
         }while(counter != threadsNumber);
 
         assertEquals(getLinesNumber(), threadsNumber);

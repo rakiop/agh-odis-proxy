@@ -37,7 +37,9 @@ public class SocketConnectionLogger extends ODiSSocketFilter {
             File file = new File(fileName);
             if (!file.exists())
             {
-                    file.createNewFile();
+                if(!file.createNewFile()){
+                    throw new IOException("Can not create file");
+                }
             }
 
             if(!file.canWrite()){
@@ -61,7 +63,9 @@ public class SocketConnectionLogger extends ODiSSocketFilter {
                 if(fw != null)
                     fw.close();
 
-            }catch(IOException e){}
+            }catch(IOException e){
+                LOGGER.warn(e.getMessage());
+            }
         }
 
         return true;
