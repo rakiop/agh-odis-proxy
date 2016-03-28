@@ -11,13 +11,31 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * Helper to handle with LocalTime class
+ */
 public class DateHelper {
 
+    /**
+     * Main application logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DateHelper.class);
 
+    /**
+     * Pattern for hours and minutes
+     */
     private static final SimpleDateFormat hoursMinutesParser = new SimpleDateFormat("HH:mm");
+
+    /**
+     * Pattern for hours, minutes and seconds
+     */
     private static final SimpleDateFormat hoursMinutesSecondsParser = new SimpleDateFormat("HH:mm:ss");
 
+    /**
+     * Parse string value to LocalTime object
+     * @param time      String value
+     * @return          LocalTime object or null
+     */
     public static LocalTime parseTime(String time){
         Date date = null;
         try {
@@ -37,6 +55,12 @@ public class DateHelper {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalTime();
     }
 
+    /**
+     * Check if current time is between given local times
+     * @param from      Left border
+     * @param to        Right border
+     * @return          Is current between?
+     */
     public static boolean currentTimeIsBetween(LocalTime from, LocalTime to){
         LocalTime current = LocalTime.now();
 

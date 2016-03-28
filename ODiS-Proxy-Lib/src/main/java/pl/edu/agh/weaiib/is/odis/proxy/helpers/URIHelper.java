@@ -3,8 +3,17 @@ package pl.edu.agh.weaiib.is.odis.proxy.helpers;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Get valid URI object from string URI
+ */
 public class URIHelper {
 
+    /**
+     * Gets valid URI object from request url
+     * @param url                   Request URL
+     * @return                      Valid URI object
+     * @throws URISyntaxException   If conversion fails
+     */
     public static URI getURIFromUrl(String url) throws URISyntaxException {
         try{
             URI uri = new URI(url);
@@ -27,10 +36,20 @@ public class URIHelper {
         }
     }
 
+    /**
+     * Char value of mark
+     * @param ch    mark unicode number part
+     * @return      char value
+     */
     private static char toHex(int ch) {
         return (char) (ch < 10 ? '0' + ch : 'A' + ch - 10);
     }
 
+    /**
+     * Check if mark should be unicoded
+     * @param ch    mark
+     * @return      Is mark not valid?
+     */
     private static boolean isUnsafe(char ch) {
         if (ch > 128 || ch < 0)
             return true;

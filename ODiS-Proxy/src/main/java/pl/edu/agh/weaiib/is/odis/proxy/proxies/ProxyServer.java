@@ -12,24 +12,54 @@ import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Http proxy server
+ */
 public class ProxyServer implements Proxies{
 
+    /**
+     * Port to listen
+     */
     private final int port;
 
+    /**
+     * Real Proxy server
+     */
     private HttpProxyServer server;
 
+    /**
+     * Is proxy started
+     */
     private boolean serverIsStarted = false;
 
-    private Map<FilterPlace, LinkedList<Filter>> filters = new HashMap<FilterPlace, LinkedList<Filter>>();
+    /**
+     * Map of filters
+     */
+    private Map<FilterPlace, LinkedList<Filter>> filters = new HashMap<>();
 
+    /**
+     * Empty filter / plugins list if not set - performance
+     */
+    private static final LinkedList<Filter> emptyFilterList = new LinkedList<>();
+
+    /**
+     * Predicate to filter by time
+     */
+    private static final FilterPredicate filterPredicate = new FilterPredicate();
+
+    /**
+     * Constructor
+     * @param port  Port to listen
+     */
     public ProxyServer(int port){
         this.port = port;
     }
 
-    private static final LinkedList<Filter> emptyFilterList = new LinkedList<>();
-    private static final FilterPredicate filterPredicate = new FilterPredicate();
-
-
+    /**
+     * Get filter for specific place filtered by current time
+     * @param place     Place of injection
+     * @return          Filtered list of plugins
+     */
     public List<Filter> getFilters(FilterPlace place){
         List<Filter> list = this.filters.get(place);
         if(list == null)
@@ -40,10 +70,19 @@ public class ProxyServer implements Proxies{
                     .collect(Collectors.toList());
     }
 
+    /**
+     * Listening address
+     * @return  Listening address
+     */
     public InetSocketAddress getAddress(){
         return server.getListenAddress();
     }
 
+    /**
+     * Adde new Filter
+     * @param filter    Filter / plugin
+     * @param place     Place to inject
+     */
     @Override
     public void addFilter(Filter filter, FilterPlace place){
         if(!filters.containsKey(place))
@@ -53,6 +92,10 @@ public class ProxyServer implements Proxies{
         Collections.sort(filters.get(place),(f1,f2) -> f1.getPriority() - f2.getPriority());
     }
 
+    /**
+     * Start http server
+     * @throws RootCertificateException If SSL connection start fails
+     */
     @Override
     public void start() throws RootCertificateException {
         server = DefaultHttpProxyServer.bootstrap()
@@ -62,6 +105,9 @@ public class ProxyServer implements Proxies{
         serverIsStarted = true;
     }
 
+    /**
+     * Stop listening
+     */
     @Override
     public void close() {
         if(server != null)
@@ -69,6 +115,10 @@ public class ProxyServer implements Proxies{
         serverIsStarted = false;
     }
 
+    /**
+     * Is proxy listening?
+     * @return  Is proxy listening?
+     */
     @Override
     public boolean isStarted() {
         return serverIsStarted;

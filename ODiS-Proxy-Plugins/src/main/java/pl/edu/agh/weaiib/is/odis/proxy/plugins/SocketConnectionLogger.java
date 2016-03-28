@@ -9,12 +9,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Log connection to socket to specific file
+ */
 public class SocketConnectionLogger extends ODiSSocketFilter {
 
+    /**
+     * Main application logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SocketConnectionLogger.class);
 
+    /**
+     * Name / path to logger file
+     */
     private String fileName;
 
+    /**
+     * Write to logger file information of connection
+     * @param client    Socket client
+     * @return          Always {@code true}
+     */
     @Override
     public boolean testSocketRequest(Socket client) {
         FileWriter fw = null;
@@ -53,12 +67,16 @@ public class SocketConnectionLogger extends ODiSSocketFilter {
         return true;
     }
 
+    /**
+     * Reads file path from {@code parameters} with key "file"
+     * @throws java.lang.IllegalArgumentException   If file is not given
+     */
     @Override
     public void init() {
         String fileName = (String) parameters.get("file");
-        if(fileName == null)
+        if(fileName == null || fileName.trim().isEmpty())
             throw new IllegalArgumentException("This Plugin needs file to write");
 
-        this.fileName = fileName;
+        this.fileName = fileName.trim();
     }
 }
