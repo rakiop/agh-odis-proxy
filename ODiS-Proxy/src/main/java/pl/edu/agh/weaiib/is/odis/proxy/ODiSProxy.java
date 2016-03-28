@@ -1,12 +1,5 @@
 package pl.edu.agh.weaiib.is.odis.proxy;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.Configuration;
@@ -15,6 +8,11 @@ import pl.edu.agh.weaiib.is.odis.proxy.configuration.Filter;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.Proxies;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.ProxyServer;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.SocketListener;
+
+import java.io.*;
+import java.time.LocalTime;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ODiSProxy {
 
@@ -135,6 +133,13 @@ public class ODiSProxy {
         pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter newFilter =  (pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter) filterClass.newInstance();
         newFilter.setPriority(filter.getPriority());
         newFilter.setParameters(filter.getParameters());
+        String timeFrom = filter.getTimeFrom();
+        if(timeFrom != null && !timeFrom.isEmpty())
+            newFilter.setFilterFrom(LocalTime.parse(timeFrom));
+
+        String timeTo = filter.getTimeTo();
+        if(timeTo != null && !timeTo.isEmpty())
+        newFilter.setFilterTo(LocalTime.parse(timeTo));
         return newFilter;
     }
 

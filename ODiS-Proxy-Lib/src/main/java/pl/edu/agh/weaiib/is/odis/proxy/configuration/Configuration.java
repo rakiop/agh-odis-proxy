@@ -38,6 +38,8 @@ public class Configuration {
 
     public static class ConfigurationSerializer {
 
+        private ConfigurationSerializer() { }
+
         public static void serialize(Configuration configuration, OutputStream stream) throws Exception {
             Serializer serializer = new Persister();
             stream.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n".getBytes());

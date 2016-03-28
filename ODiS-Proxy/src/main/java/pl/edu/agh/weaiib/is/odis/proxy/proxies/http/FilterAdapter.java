@@ -26,10 +26,12 @@ public class FilterAdapter extends HttpFiltersSourceAdapter {
         this.server = server;
     }
 
-    private static final AttributeKey<String> CONNECTED_URL = AttributeKey.valueOf("connected_url");
+    public static final AttributeKey<String> CONNECTED_URL = AttributeKey.valueOf("connected_url");
 
     public HttpFilters filterRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
-        LOGGER.info(String.format("[%s] New request from %s to host: [%s] %s", server.getAddress(), ctx.channel().remoteAddress(), originalRequest.getMethod(), originalRequest.getUri()));
+        String from = ctx == null || ctx.channel().remoteAddress() == null
+                ? "" : ctx.channel().remoteAddress().toString();
+        LOGGER.info(String.format("[%s] New request from %s to host: [%s] %s", server.getAddress(), from, originalRequest.getMethod(), originalRequest.getUri()));
 
         List<Filter> filters = server.getFilters(FilterPlace.SERVER_CLIENT_TO_PROXY);
         boolean canContinue = true;
@@ -54,8 +56,6 @@ public class FilterAdapter extends HttpFiltersSourceAdapter {
             }
             return new HttpFiltersAdapter(originalRequest, ctx);
         }
-
-        //String connectedUrl = ctx.channel().attr(CONNECTED_URL).get();
 
         return new OdisHttpFilterAdapter(originalRequest, ctx, server);
     }

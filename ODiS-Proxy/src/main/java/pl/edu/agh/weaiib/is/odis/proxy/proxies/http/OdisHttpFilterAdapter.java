@@ -21,7 +21,7 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OdisHttpFilterAdapter.class);
 
-    private static final List<String> filtrableContentTypes = Arrays.asList(new String[]{"text/html","text/plain","application/javascript"}) ;
+    private static final List<String> filterableContentTypes = Arrays.asList(new String[]{"text/html","text/plain","application/javascript"}) ;
 
     private ProxyServer server;
 
@@ -39,7 +39,7 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
     public HttpObject proxyToClientResponse(HttpObject httpObject){
 
         if(httpObject instanceof DefaultByteBufHolder &&
-            filtrableContentTypes.contains(HttpResponseHelper.getContentType(httpObject))){
+            filterableContentTypes.contains(HttpResponseHelper.getContentType(httpObject))){
             DefaultByteBufHolder response = (DefaultByteBufHolder) httpObject;
 
             String charset = HttpResponseHelper.getCharset(httpObject);

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter;
-import pl.edu.agh.weaiib.is.odis.proxy.plugins.ODiSSocketFIlter;
+import pl.edu.agh.weaiib.is.odis.proxy.plugins.ODiSSocketFilter;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.SocketListener;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ODiSSocketClient implements Runnable {
             List<Filter> filters = socketListener.getFilters(FilterPlace.SOCKET_BEFORE);
 
             for(Filter filter : filters){
-                ((ODiSSocketFIlter)filter).testSocketRequest(socket);
+                ((ODiSSocketFilter)filter).testSocketRequest(socket);
             }
             LOGGER.info("Closing connection");
             socket.close();

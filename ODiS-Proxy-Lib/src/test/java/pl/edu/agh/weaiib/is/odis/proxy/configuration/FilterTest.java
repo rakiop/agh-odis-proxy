@@ -11,6 +11,8 @@ public class FilterTest {
     private static final String filterName = "filterName";
     private static final FilterPlace place = FilterPlace.SERVER_CLIENT_TO_PROXY;
     private static final int priority = 1;
+    private static final String timeFrom = "00:00";
+    private static final String timeTo = "23:59:59";
 
     @Test
     public void emptyConstructorCreatesParametersMap(){
@@ -20,11 +22,13 @@ public class FilterTest {
 
     @Test
     public void constructorFillsProperties(){
-        Filter filter = new Filter(filterName, place, priority);
+        Filter filter = new Filter(filterName, place, priority, timeFrom, timeTo);
 
         assertEquals(filter.getFilterName(), filterName);
         assertEquals(filter.getPlace(), place);
         assertEquals(filter.getPriority(), priority);
+        assertEquals(filter.getTimeFrom(), timeFrom);
+        assertEquals(filter.getTimeTo(), timeTo);
 
         assertNotNull(filter.getParameters());
     }
@@ -38,11 +42,15 @@ public class FilterTest {
         filter.setFilterName(filterName);
         filter.setPlace(place);
         filter.setPriority(priority);
+        filter.setTimeFrom(timeFrom);
+        filter.setTimeTo(timeTo);
         filter.setParameters(parameters);
 
         assertEquals(filter.getFilterName(), filterName);
         assertEquals(filter.getPlace(), place);
         assertEquals(filter.getPriority(), priority);
+        assertEquals(filter.getTimeFrom(), timeFrom);
+        assertEquals(filter.getTimeTo(), timeTo);
         assertEquals(filter.getParameters(), parameters);
     }
 

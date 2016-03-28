@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
 
-public class SocketConnectionLogger extends ODiSSocketFIlter{
+public class SocketConnectionLogger extends ODiSSocketFilter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SocketConnectionLogger.class);
 
