@@ -34,7 +34,7 @@ public class URIHelper {
     private static boolean isUnsafe(char ch) {
         if (ch > 128 || ch < 0)
             return true;
-        return " %$+,:;@<>#%{}[]".indexOf(ch) >= 0;
+        return " %$+,:;@<>#%{}[]'\"".indexOf(ch) >= 0;
     }
 
 }

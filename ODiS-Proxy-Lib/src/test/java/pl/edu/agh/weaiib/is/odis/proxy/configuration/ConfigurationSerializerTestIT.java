@@ -8,23 +8,22 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-/**
- * Created by SG0222582 on 3/24/2016.
- */
-public class ConfigurationMarshallerTestIT {
+public class ConfigurationSerializerTestIT {
 
     private static final String xmlValue = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
             "<configurations>\n" +
             "   <configuration type=\"HTTP_SERVER\" port=\"8080\"/>\n" +
             "</configurations>";
 
-    private static final String fromTime = "00:00";
-    private static final String toTime = "23:59";
     private static final int port = 8080;
     private static final ListenerType listenerType = ListenerType.HTTP_SERVER;
+
+
     @Test
-    public void marshal() throws Exception {
+    public void serialize() throws Exception {
         Configuration configuration = new Configuration();
         configuration.addConfiguration(new ConfigurationEntry(port, listenerType));
 
@@ -35,11 +34,10 @@ public class ConfigurationMarshallerTestIT {
         String content = new String(os.toByteArray()).trim();
 
         assertEquals(content, xmlValue.trim());
-
     }
 
     @Test
-    public void unmarshal() throws Exception {
+    public void unserialize() throws Exception {
         InputStream is = new ByteArrayInputStream(xmlValue.getBytes(StandardCharsets.UTF_8));
 
         Configuration configuration = Configuration.ConfigurationSerializer.unserialize(is);
@@ -50,6 +48,20 @@ public class ConfigurationMarshallerTestIT {
         ConfigurationEntry entry  = configuration.getConfigurations().get(0);
         assertEquals(entry.getPort(), port);
         assertEquals(entry.getType(), listenerType);
+    }
 
+    @Test(expected = Exception.class)
+    public void serializationThrowsException() throws Exception {
+        Configuration conf = mock(Configuration.class);
+        when(conf.getConfigurations()).thenReturn(null);
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+        Configuration.ConfigurationSerializer.serialize(conf, os);
+    }
+
+    @Test(expected = IllegalAccessException.class)
+    public void canNotMakeInstance() throws IllegalAccessException, InstantiationException {
+        Configuration.ConfigurationSerializer.class.newInstance();
     }
 }

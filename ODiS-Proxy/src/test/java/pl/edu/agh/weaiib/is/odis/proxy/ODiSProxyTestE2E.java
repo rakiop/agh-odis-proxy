@@ -60,10 +60,7 @@ public class ODiSProxyTestE2E {
         ConfigurationEntry socketEntry = new ConfigurationEntry(socketPort, ListenerType.SOCKET);
         configuration.addConfiguration(socketEntry);
 
-
         return configuration;
-
-
     }
 
 }
