@@ -35,4 +35,34 @@
             </parameter>
         </filter>
     </configuration>
+    <configuration type="SOCKET" port="5222">
+        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.SocketConnectionLogger" place="SOCKET_BEFORE" priority="1" timeFrom="00:00" timeTo="23:59">
+            <parameter>
+                <key>file</key>
+                <value class="java.lang.String">
+                    JabberConnections.log
+                </value>
+            </parameter>
+        </filter>
+    </configuration>
+    <configuration type="SOCKET" port="5050">
+        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.SocketConnectionLogger" place="SOCKET_BEFORE" priority="1" timeFrom="00:00" timeTo="23:59">
+            <parameter>
+                <key>file</key>
+                <value class="java.lang.String">
+                    YahooMessengerConnections.log
+                </value>
+            </parameter>
+        </filter>
+    </configuration>
+    <configuration type="SOCKET" port="6667">
+        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.SocketConnectionLogger" place="SOCKET_BEFORE" priority="1" timeFrom="00:00" timeTo="23:59">
+            <parameter>
+                <key>file</key>
+                <value class="java.lang.String">
+                    IrcConnections.log
+                </value>
+            </parameter>
+        </filter>
+    </configuration>
 </configurations>
