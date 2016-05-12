@@ -33,8 +33,8 @@ public class ContentFilterPlugin extends ODiSHttpFilter {
      * @return                  Always return {@code true}
      */
     @Override
-    public boolean testHttpRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
-        return true;
+    public FilterResponse testHttpRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
+        return new FilterResponse(true);
     }
 
     /**
@@ -45,20 +45,20 @@ public class ContentFilterPlugin extends ODiSHttpFilter {
      * @return                  Whether content contains forbidden terms/pattern or not
      */
     @Override
-    public boolean testHttpResponse(HttpRequest originalRequest, HttpObject response, String content) {
+    public FilterResponse testHttpResponse(HttpRequest originalRequest, HttpObject response, String content) {
 
         for(String term : forbiddenTerms){
             if(content.contains(term))
-                return false;
+                return new FilterResponse(false, String.format("Contains forbidden term - %s", term));
         }
 
         for(Pattern pattern : forbiddenPatterns){
             Matcher matcher = pattern.matcher(content);
             if(matcher.find())
-                return false;
+                return new FilterResponse(false, String.format("Contains forbidden term - %s", pattern.toString()));
         }
 
-        return true;
+        return new FilterResponse(true);
     }
 
     /**

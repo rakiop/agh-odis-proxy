@@ -12,6 +12,6 @@ public abstract class ODiSSocketFilter extends Filter {
      * @param client    Client socket
      * @return          Unimportant value
      */
-    public abstract boolean testSocketRequest(Socket client);
+    public abstract FilterResponse testSocketRequest(Socket client);
 
 }

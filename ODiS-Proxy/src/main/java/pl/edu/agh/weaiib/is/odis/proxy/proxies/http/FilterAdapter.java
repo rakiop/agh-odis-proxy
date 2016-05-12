@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter;
+import pl.edu.agh.weaiib.is.odis.proxy.plugins.FilterResponse;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.ODiSHttpFilter;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.ProxyServer;
 
@@ -58,17 +59,19 @@ public class FilterAdapter extends HttpFiltersSourceAdapter {
 
         List<Filter> filters = server.getFilters(FilterPlace.SERVER_CLIENT_TO_PROXY);
         boolean canContinue = true;
+        FilterResponse filterResponse = null;
         for (Filter filter : filters) {
-            canContinue &= ((ODiSHttpFilter)filter).testHttpRequest(originalRequest, ctx);
+            filterResponse = ((ODiSHttpFilter)filter).testHttpRequest(originalRequest, ctx);
+            canContinue &= filterResponse.getStatus();
             if (!canContinue) {
-                LOGGER.info(String.format("Request stopped by %s", filter.getClass().getName()));
+                LOGGER.info(String.format("Request stopped by %s with message: %s", filter.getClass().getName(), filterResponse.getMessage()));
                 break;
             }
         }
 
         // If false then break connection
         if (!canContinue) {
-            return new OdisHttpAbortFilterAdapter(originalRequest, ctx);
+            return new OdisHttpAbortFilterAdapter(originalRequest, ctx, filterResponse);
         }
 
         if (originalRequest.getMethod() == HttpMethod.CONNECT) {

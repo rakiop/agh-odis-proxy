@@ -2,13 +2,11 @@ package pl.edu.agh.weaiib.is.odis.proxy.plugins;
 
 
 import io.netty.handler.codec.http.HttpRequest;
-import org.junit.Test;
-import pl.edu.agh.weaiib.is.odis.proxy.SerializableList;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+import org.junit.Test;
+import pl.edu.agh.weaiib.is.odis.proxy.SerializableList;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.mock;
@@ -22,7 +20,7 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://google.pl/?q=question");
 
-        assertFalse(list.testHttpRequest(request, null));
+        assertFalse(list.testHttpRequest(request, null).getStatus());
     }
 
     @Test
@@ -31,7 +29,7 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://google.com/?q=question");
 
-        assertTrue(list.testHttpRequest(request, null));
+        assertTrue(list.testHttpRequest(request, null).getStatus());
     }
 
     @Test
@@ -40,7 +38,7 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://5.133.13.87");
 
-        assertFalse(list.testHttpRequest(request, null));
+        assertFalse(list.testHttpRequest(request, null).getStatus());
     }
 
     @Test
@@ -49,7 +47,7 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://m.kwejk.pl");
 
-        assertFalse(list.testHttpRequest(request, null));
+        assertFalse(list.testHttpRequest(request, null).getStatus());
     }
 
     @Test
@@ -58,7 +56,7 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://google.pl");
 
-        assertFalse(list.testHttpRequest(request, null));
+        assertFalse(list.testHttpRequest(request, null).getStatus());
     }
 
     @Test
@@ -67,14 +65,14 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://www.google.pl");
 
-        assertFalse(list.testHttpRequest(request, null));
+        assertFalse(list.testHttpRequest(request, null).getStatus());
     }
 
 
     @Test
     public void responseTestAlwaysTrue(){
         BlackListUrlsPlugin list = initializeBlackListUrls("kwejk.pl");
-        assertTrue(list.testHttpResponse(null, null, null));
+        assertTrue(list.testHttpResponse(null, null, null).getStatus());
     }
 
     @Test
@@ -83,7 +81,7 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://0000:0000:0000:0000:0000:0000:0000:0000%5");
 
-        assertTrue(list.testHttpRequest(request, null));
+        assertTrue(list.testHttpRequest(request, null).getStatus());
     }
 
     @Test
@@ -92,7 +90,16 @@ public class BlackListUrlsPluginTest {
         HttpRequest request = mock(HttpRequest.class);
         when(request.getUri()).thenReturn("http://sadih$@%@$@#");
 
-        assertTrue(list.testHttpRequest(request, null));
+        assertTrue(list.testHttpRequest(request, null).getStatus());
+    }
+
+    @Test
+    public void dropHttpsConnectionUrl(){
+        BlackListUrlsPlugin list = initializeBlackListUrls("google.pl");
+        HttpRequest request = mock(HttpRequest.class);
+        when(request.getUri()).thenReturn("google.pl:443/?q=question");
+
+        assertFalse(list.testHttpRequest(request, null).getStatus());
     }
 
     private BlackListUrlsPlugin initializeBlackListUrls(String domainList){

@@ -15,7 +15,7 @@ public abstract class ODiSHttpFilter extends Filter{
      * @param ctx               Contest
      * @return                  Pass this request forward or drop it
      */
-    public abstract boolean testHttpRequest(HttpRequest originalRequest, ChannelHandlerContext ctx);
+    public abstract FilterResponse testHttpRequest(HttpRequest originalRequest, ChannelHandlerContext ctx);
 
     /**
      * Filter response content when proxy gets it from remote host
@@ -24,5 +24,5 @@ public abstract class ODiSHttpFilter extends Filter{
      * @param content           Parsed content to text format
      * @return                  Pass this response or drop it
      */
-    public abstract boolean testHttpResponse(HttpRequest originalRequest, HttpObject response, String content);
+    public abstract FilterResponse testHttpResponse(HttpRequest originalRequest, HttpObject response, String content);
 }
