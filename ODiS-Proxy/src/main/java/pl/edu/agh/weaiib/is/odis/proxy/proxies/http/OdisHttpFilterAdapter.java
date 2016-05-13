@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
 import pl.edu.agh.weaiib.is.odis.proxy.helpers.HttpResponseHelper;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.Filter;
+import pl.edu.agh.weaiib.is.odis.proxy.plugins.FilterResponse;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.ODiSHttpFilter;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.ProxyServer;
 
@@ -83,16 +84,18 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
 
             List<Filter> filters = server.getFilters(FilterPlace.SERVER_PROXY_TO_CLIENT);
             boolean canContinue = true;
+            FilterResponse filterResponse = null;
             for (Filter filter : filters) {
-                canContinue &= ((ODiSHttpFilter)filter).testHttpResponse(originalRequest, httpObject, content);
+                filterResponse = ((ODiSHttpFilter)filter).testHttpResponse(originalRequest, httpObject, content);
+                canContinue &= filterResponse.getStatus();
                 if (!canContinue) {
-                    LOGGER.info(String.format("Response stopped by %s", filter.getClass().getName()));
+                    LOGGER.info(String.format("Response stopped by %s with message: %s", filter.getClass().getName(), filterResponse.getMessage()));
                     break;
                 }
             }
 
             if(!canContinue)
-                return OdisHttpAbortFilterAdapter.getForbiddenResponse();
+                return OdisHttpAbortFilterAdapter.getForbiddenResponse(filterResponse);
 
             try {
                 byte[] contentBytes = content.getBytes(charset);
@@ -100,7 +103,8 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
                 HttpResponseHelper.updateContentLength((HttpObject)response, contentBytes.length);
             } catch (UnsupportedEncodingException e) {
                 LOGGER.warn(String.format("Could not replace content: %s", e.getMessage()));
-                return OdisHttpAbortFilterAdapter.getForbiddenResponse();
+                FilterResponse filterResponse1 = new FilterResponse(false, "Proxy error: could not replace page content");
+                return OdisHttpAbortFilterAdapter.getForbiddenResponse(filterResponse1);
             }
             return (HttpObject) response;
         }

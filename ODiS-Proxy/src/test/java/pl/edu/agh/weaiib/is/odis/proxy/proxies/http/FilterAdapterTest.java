@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.littleshoot.proxy.HttpFilters;
 import org.littleshoot.proxy.HttpFiltersAdapter;
 import pl.edu.agh.weaiib.is.odis.proxy.configuration.FilterPlace;
+import pl.edu.agh.weaiib.is.odis.proxy.plugins.FilterResponse;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.ODiSHttpFilter;
 import pl.edu.agh.weaiib.is.odis.proxy.proxies.ProxyServer;
 
@@ -58,7 +59,7 @@ public class FilterAdapterTest {
         when(request.getUri()).thenReturn(null);
         when(ctx.channel()).thenReturn(channel);
         when(channel.remoteAddress()).thenReturn(null);
-        when(filter.testHttpRequest(any(), any())).thenReturn(true);
+        when(filter.testHttpRequest(any(), any())).thenReturn(new FilterResponse(true));
 
         FilterAdapter adapter = new FilterAdapter(server);
         adapter.filterRequest(request, ctx);
@@ -81,7 +82,7 @@ public class FilterAdapterTest {
         when(request.getUri()).thenReturn(null);
         when(ctx.channel()).thenReturn(channel);
         when(channel.remoteAddress()).thenReturn(null);
-        when(filter.testHttpRequest(any(), any())).thenReturn(false);
+        when(filter.testHttpRequest(any(), any())).thenReturn(new FilterResponse(false));
 
         FilterAdapter adapter = new FilterAdapter(server);
         HttpFilters ret = adapter.filterRequest(request, ctx);
@@ -103,7 +104,7 @@ public class FilterAdapterTest {
         when(request.getUri()).thenReturn(null);
         when(ctx.channel()).thenReturn(channel);
         when(channel.remoteAddress()).thenReturn(null);
-        when(filter.testHttpRequest(any(), any())).thenReturn(true);
+        when(filter.testHttpRequest(any(), any())).thenReturn(new FilterResponse(true));
 
         FilterAdapter adapter = new FilterAdapter(server);
         HttpFilters ret = adapter.filterRequest(request, ctx);
@@ -123,7 +124,7 @@ public class FilterAdapterTest {
         when(request.getMethod()).thenReturn(HttpMethod.CONNECT);
         when(request.getUri()).thenReturn(null);
         when(channel.remoteAddress()).thenReturn(null);
-        when(filter.testHttpRequest(any(), any())).thenReturn(true);
+        when(filter.testHttpRequest(any(), any())).thenReturn(new FilterResponse(true));
 
         FilterAdapter adapter = new FilterAdapter(server);
         HttpFilters ret = adapter.filterRequest(request, null);
@@ -150,7 +151,7 @@ public class FilterAdapterTest {
         when(ctx.channel()).thenReturn(channel);
         when(channel.remoteAddress()).thenReturn(new InetSocketAddress(20));
         when(channel.attr(FilterAdapter.CONNECTED_URL)).thenReturn(attribute);
-        when(filter.testHttpRequest(any(), any())).thenReturn(true);
+        when(filter.testHttpRequest(any(), any())).thenReturn(new FilterResponse(true));
 
         FilterAdapter adapter = new FilterAdapter(server);
         adapter.filterRequest(request, ctx);

@@ -80,19 +80,19 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
      * @return                  Whether domain is good or not
      */
     @Override
-    public boolean testHttpRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
+    public FilterResponse testHttpRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
         String uri = originalRequest.getUri();
         String host = getHost(uri);
 
         if(fullDomains.contains(host))
-            return false;
+            return new FilterResponse(false, "This domain is on black list");
 
         for(String sub : subdomainsSufix){
             if(host.endsWith(sub))
-                return false;
+                return new FilterResponse(false, "This domain is on black list");
         }
 
-        return true;
+        return new FilterResponse(true);
     }
 
     /**
@@ -105,8 +105,9 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
         try {
             URI uri = URIHelper.getURIFromUrl(url);
             host = uri.getHost();
-            if(host == null)
-                host = uri.getSchemeSpecificPart();
+            if(host == null) {
+                host = uri.getScheme();
+            }
             if(host.startsWith("www."))
                 host = host.substring(4);
 
@@ -136,7 +137,7 @@ public class BlackListUrlsPlugin extends ODiSHttpFilter{
      * @return                  Always {@code true}
      */
     @Override
-    public boolean testHttpResponse(HttpRequest originalRequest, HttpObject response, String content) {
-        return true;
+    public FilterResponse testHttpResponse(HttpRequest originalRequest, HttpObject response, String content) {
+        return new FilterResponse(true);
     }
 }

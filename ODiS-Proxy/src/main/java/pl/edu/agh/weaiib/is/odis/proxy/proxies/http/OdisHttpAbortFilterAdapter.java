@@ -3,23 +3,31 @@ package pl.edu.agh.weaiib.is.odis.proxy.proxies.http;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.*;
-import org.littleshoot.proxy.HttpFiltersAdapter;
-
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.HttpObject;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 import java.nio.charset.Charset;
+import org.littleshoot.proxy.HttpFiltersAdapter;
+import pl.edu.agh.weaiib.is.odis.proxy.plugins.FilterResponse;
 
 /**
  * Adapter to handle request / response that will be dropped
  */
 public class OdisHttpAbortFilterAdapter extends HttpFiltersAdapter {
 
+    private final FilterResponse filterResponse;
+
     /**
      * Default constructor
      * @param originalRequest       request
      * @param ctx                   context
      */
-    public OdisHttpAbortFilterAdapter(HttpRequest originalRequest, ChannelHandlerContext ctx) {
+    public OdisHttpAbortFilterAdapter(HttpRequest originalRequest, ChannelHandlerContext ctx, FilterResponse filterResponse) {
         super(originalRequest, ctx);
+        this.filterResponse = filterResponse;
     }
 
     /**
@@ -29,7 +37,17 @@ public class OdisHttpAbortFilterAdapter extends HttpFiltersAdapter {
      */
     @Override
     public HttpResponse clientToProxyRequest(HttpObject httpRequest){
-        return getForbiddenResponse();
+        if(filterResponse == null)
+            return getForbiddenResponse();
+        return getForbiddenResponse(filterResponse);
+    }
+
+    /**
+     * Get Forbidden response
+     * @return  Forbidden response
+     */
+    public static HttpResponse getForbiddenResponse(FilterResponse filterResponse){
+        return responseFor(HttpVersion.HTTP_1_1, HttpResponseStatus.FORBIDDEN, "This page is forbidden by your proxy settings.<br>" + filterResponse.getMessage());
     }
 
     /**

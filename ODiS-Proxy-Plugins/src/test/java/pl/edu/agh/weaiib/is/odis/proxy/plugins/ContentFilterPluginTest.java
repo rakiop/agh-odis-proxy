@@ -60,7 +60,7 @@ public class ContentFilterPluginTest {
     public void testHttpRequestAlwaysTrue(){
         ContentFilterPlugin plugin = new ContentFilterPlugin();
 
-        boolean test = plugin.testHttpRequest(null, null);
+        boolean test = plugin.testHttpRequest(null, null).getStatus();
 
         assertTrue(test);
     }
@@ -77,7 +77,7 @@ public class ContentFilterPluginTest {
         ContentFilterPlugin plugin = new ContentFilterPlugin();
         plugin.setParameters(properties);
 
-        boolean test = plugin.testHttpResponse(null, null, content);
+        boolean test = plugin.testHttpResponse(null, null, content).getStatus();
 
         assertFalse(test);
     }
@@ -94,7 +94,7 @@ public class ContentFilterPluginTest {
         ContentFilterPlugin plugin = new ContentFilterPlugin();
         plugin.setParameters(properties);
 
-        boolean test = plugin.testHttpResponse(null, null, content);
+        boolean test = plugin.testHttpResponse(null, null, content).getStatus();
 
         assertFalse(test);
     }
@@ -113,7 +113,7 @@ public class ContentFilterPluginTest {
         ContentFilterPlugin plugin = new ContentFilterPlugin();
         plugin.setParameters(properties);
 
-        boolean test = plugin.testHttpResponse(null, null, content);
+        boolean test = plugin.testHttpResponse(null, null, content).getStatus();
 
         assertTrue(test);
     }

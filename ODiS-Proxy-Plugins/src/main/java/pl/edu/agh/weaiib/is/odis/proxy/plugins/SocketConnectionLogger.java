@@ -30,7 +30,7 @@ public class SocketConnectionLogger extends ODiSSocketFilter {
      * @return          Always {@code true}
      */
     @Override
-    public boolean testSocketRequest(Socket client) {
+    public FilterResponse testSocketRequest(Socket client) {
         FileWriter fw = null;
         BufferedWriter bw = null;
         try {
@@ -44,7 +44,7 @@ public class SocketConnectionLogger extends ODiSSocketFilter {
 
             if(!file.canWrite()){
                 LOGGER.error(String.format("File has write protection: %s", fileName));
-                return true;
+                return new FilterResponse(true);
             }
 
             fw = new FileWriter(file.getAbsoluteFile(), true);
@@ -68,7 +68,7 @@ public class SocketConnectionLogger extends ODiSSocketFilter {
             }
         }
 
-        return true;
+        return new FilterResponse(true);
     }
 
     /**

@@ -9,7 +9,7 @@ public class OdisHttpAbortFilterAdapterTest {
 
     @Test
     public void validateForbiddenResponse(){
-        OdisHttpAbortFilterAdapter adapter = new OdisHttpAbortFilterAdapter(null, null);
+        OdisHttpAbortFilterAdapter adapter = new OdisHttpAbortFilterAdapter(null, null, null);
         HttpResponse response = adapter.clientToProxyRequest(null);
 
         assertEquals(response.getStatus(), HttpResponseStatus.FORBIDDEN);
