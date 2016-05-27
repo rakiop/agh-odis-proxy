@@ -31,7 +31,10 @@ public class OdisHttpFilterAdapter extends HttpFiltersAdapter {
     /**
      * List of content types to do post - filtering
      */
-    private static final List<String> filterableContentTypes = Arrays.asList("text/html","text/plain","application/javascript") ;
+    private static final List<String> filterableContentTypes = Arrays.asList(
+            "text/html","text/plain",
+            "application/xhtml+xml", "text/xml", "application/xml",
+            "application/javascript","application/json") ;
 
     /**
      * Proxy server

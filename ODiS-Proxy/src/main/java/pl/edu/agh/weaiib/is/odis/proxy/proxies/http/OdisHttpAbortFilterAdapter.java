@@ -3,15 +3,11 @@ package pl.edu.agh.weaiib.is.odis.proxy.proxies.http;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.HttpObject;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
-import java.nio.charset.Charset;
+import io.netty.handler.codec.http.*;
 import org.littleshoot.proxy.HttpFiltersAdapter;
 import pl.edu.agh.weaiib.is.odis.proxy.plugins.FilterResponse;
+
+import java.nio.charset.Charset;
 
 /**
  * Adapter to handle request / response that will be dropped
@@ -84,6 +80,7 @@ public class OdisHttpAbortFilterAdapter extends HttpFiltersAdapter {
         if(body != null) {
             response.headers().set("Content-Length", Integer.valueOf(contentLength));
             response.headers().set("Content-Type", "text/html; charset=UTF-8");
+            response.headers().set("Connection", "close");
         }
 
         return response;
