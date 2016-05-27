@@ -71,4 +71,15 @@ public class DateHelper {
 
     }
 
+    /**
+     * Is difference between dates is more that diff nanos
+     * @param date1     Date 1
+     * @param date2     Date 2
+     * @param diff      Difference nanos
+     * @return          True or not?
+     */
+    public static boolean differenceIsMoreThen(Date date1, Date date2, long diff){
+        return date1.getTime() - date2.getTime() > diff;
+    }
+
 }

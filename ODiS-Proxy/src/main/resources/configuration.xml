@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configurations>
-    <configuration type="HTTP_SERVER" port="8099">
+    <configuration type="HTTP_SERVER" port="8080">
         <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.BlackListUrlsPlugin" place="SERVER_CLIENT_TO_PROXY" priority="1" timeFrom="00:00" timeTo="23:59">
             <parameter>
                 <key>list</key>
@@ -20,7 +20,23 @@
             <parameter>
                 <key>patterns</key>
                 <value class="pl.edu.agh.weaiib.is.odis.proxy.SerializableList">
-                     <item>[a-z]{20,}</item> <!-- skip german words :D -->
+                     <item>[a-z]{40,}</item> <!-- skip german words :D -->
+                </value>
+            </parameter>
+        </filter>
+        <filter filterName="pl.edu.agh.weaiib.is.odis.proxy.plugins.MyWOTPlugin" place="SERVER_CLIENT_TO_PROXY" priority="2">
+            <parameter>
+                <key>trustLevel</key>
+                <value class="java.lang.Integer">40</value>
+            </parameter>
+            <parameter>
+                <key>blockIfNotFound</key>
+                <value class="java.lang.Boolean">False</value>
+            </parameter>
+            <parameter>
+                <key>blockCategories</key>
+                <value class="pl.edu.agh.weaiib.is.odis.proxy.SerializableList">
+                    <item>401</item> <!-- adult sites -->
                 </value>
             </parameter>
         </filter>

@@ -2,7 +2,9 @@ package pl.edu.agh.weaiib.is.odis.proxy.helpers;
 
 import org.junit.Test;
 
+import java.time.Instant;
 import java.time.LocalTime;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -60,5 +62,10 @@ public class DateHelperTest {
 
     }
 
+    @Test
+    public void differenceIsMoreThenWorks(){
+        assertTrue(DateHelper.differenceIsMoreThen(new Date(), Date.from(Instant.now().minusSeconds(100)), 50000));
+        assertFalse(DateHelper.differenceIsMoreThen(new Date(), Date.from(Instant.now().minusSeconds(50)), 100000));
+    }
 
 }
